@@ -39,14 +39,14 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text='ヘルプ'
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text='ヘルプだよん♪'))
-    else
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
+    if event.message.text='ヘルプ':
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text='ヘルプだよん♪'))
+    else:
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text))
 
 
 if __name__ == "__main__":
