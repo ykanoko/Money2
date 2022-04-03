@@ -11,6 +11,8 @@ from linebot.models import (
 )
 import os
 
+from gs_sheet import test_gs_sheet
+
 app = Flask(__name__)
 #環境変数取得
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ["YOUR_CHANNEL_ACCESS_TOKEN"]
@@ -43,6 +45,11 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='ヘルプだよん♪'))
+    if event.message.text=='スプシテスト':
+        message_text = test_gs_sheet()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=message_text))
     #else:
         #line_bot_api.reply_message(
             #event.reply_token,
@@ -52,4 +59,4 @@ def handle_message(event):
 if __name__ == "__main__":
 #    app.run()
     port = int(os.getenv("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)  
+    app.run(host="0.0.0.0", port=port)     
