@@ -25,12 +25,11 @@ SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
 ws = wb.sheet1
 
-def test_gs_sheet():
+def pay_gs_sheet(m):
     #番号・日付date・2人で使った金額mの入力#
     import time
     from time import strftime
     date = strftime("%Y/%m/%d", time.localtime())
-    m = 400
     i = 5
     while not ws.cell(i, 2).value == None:
         print(ws.cell(i, 2).value)

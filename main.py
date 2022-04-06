@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import test_gs_sheet
+from gs_sheet import pay_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -45,11 +45,17 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='ヘルプだよん♪'))
-    if event.message.text=='スプシテスト':
-        message_text = test_gs_sheet()
+    else:
+        zannkinn = pay_gs_sheet(int(event.message.text))
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=message_text))
+            TextSendMessage(text=zannkinn))
+            
+    #if event.message.text=='スプシテスト':
+        #message_text = test_gs_sheet()
+        #line_bot_api.reply_message(
+            #event.reply_token,
+            #TextSendMessage(text=message_text))
     #else:
         #line_bot_api.reply_message(
             #event.reply_token,
