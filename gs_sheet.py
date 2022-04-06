@@ -25,7 +25,8 @@ SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
 ws = wb.sheet1
 
-def pay_gs_sheet(m):
+#支出の関数#
+def pay_gs_sheet(p):
     #番号・日付date・2人で使った金額mの入力#
     import time
     from time import strftime
@@ -38,11 +39,11 @@ def pay_gs_sheet(m):
     else:
         ws.update_cell(i,2,i-4)
         ws.update_cell(i,3,date)
-        ws.update_cell(i,4,m)
+        ws.update_cell(i,4,p)
 
     #残金の計算#
-    money_kazuya = int(ws.cell(i-1,6).value)-m/2
-    money_kanoko = int(ws.cell(i-1,7).value)-m/2
+    money_kazuya = int(ws.cell(i-1,6).value)-p/2
+    money_kanoko = int(ws.cell(i-1,7).value)-p/2
     ws.update_cell(i,6, money_kazuya)
     ws.update_cell(i,7, money_kanoko)
-    return '和也の残金：' + str(money_kazuya) + '円\n' + '花乃香の残金：' + str(money_kanoko) + '円'
+    return '番号：' + str(i-4) + '\n' +'和也の残金：' + str(money_kazuya) + '円\n' + '花乃香の残金：' + str(money_kanoko) + '円'
