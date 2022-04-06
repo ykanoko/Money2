@@ -46,4 +46,8 @@ def pay_gs_sheet(p):
     money_kanoko = int(ws.cell(i-1,7).value)-p/2
     ws.update_cell(i,6, money_kazuya)
     ws.update_cell(i,7, money_kanoko)
-    return '番号：' + str(i-4) + '\n' +'和也の残金：' + str(money_kazuya) + '円\n' + '花乃香の残金：' + str(money_kanoko) + '円'
+    return '番号：' + str(i-4) +'\n' + '和也の残金：' + str(money_kazuya) + '円\n' + '花乃香の残金：' + str(money_kanoko) + '円'
+
+money_kazuya=20
+money_kanoko=10
+print('番号：' + str(i-4) +'\n' + '和也の残金：' + str(money_kazuya) + '円\n' + '花乃香の残金：' + str(money_kanoko) + '円')
