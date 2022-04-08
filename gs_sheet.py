@@ -50,7 +50,6 @@ def pay_gs_sheet(p):
     NUMBER_START_ROW=4
     DATE_COLUMN=3
     MONEY_COLUMN=4
-    #
 
     i=NUMBER_START_ROW+1
     while not ws.cell(i, NUMBER_COLUMN).value == None:
@@ -69,18 +68,8 @@ def pay_gs_sheet(p):
 
 #「キャンセル」の関数#
 def cancel_gs_sheet():
-
-    #定義の使いまわし省略したいが、関数の外に書いたら動かなくなった
-    PERSON1_NAME='和也'
-    PERSON2_NAME='花乃香'
-    PERSON1_COLUMN=6
-    PERSON2_COLUMN=7
     NUMBER_COLUMN=2
     NUMBER_START_ROW=4
-    DATE_COLUMN=3
-    MONEY_COLUMN=4
-    #
-
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
