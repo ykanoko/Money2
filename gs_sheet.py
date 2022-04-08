@@ -24,6 +24,14 @@ gc = gspread.authorize(credentials)
 SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
 ws = wb.sheet1
+PERSON1_NAME='和也'
+PERSON2_NAME='花乃香'
+PERSON1_COLUMN=6
+PERSON2_COLUMN=7
+NUMBER_COLUMN=2
+NUMBER_START_ROW=4
+DATE_COLUMN=3
+MONEY_COLUMN=4
 
 #「支出」の関数#
 def pay_gs_sheet(p):
@@ -31,32 +39,30 @@ def pay_gs_sheet(p):
     import time
     from time import strftime
     date = strftime("%Y/%m/%d", time.localtime())
-    PERSON1_NAME='和也'
-    PERSON2_NAME='花乃香'
-    PERSON1_COLUMN=6
-    PERSON2_COLUMN=7
-    i = 5
-    while not ws.cell(i, 2).value == None:
-        print(ws.cell(i, 2).value)
-        #コードが動いてるか確認用(完成時に消す)
-        i += 1
+    #PERSON1_NAME='和也'
+    #PERSON2_NAME='花乃香'
+    #PERSON1_COLUMN=6
+    #PERSON2_COLUMN=7
+    i=NUMBER_START_ROW+1
+    while not ws.cell(i, NUMBER_COLUMN).value == None:
+        print(ws.cell(i, NUMBER_COLUMN).value)
     else:
-        ws.update_cell(i,2,i-4)
-        ws.update_cell(i,3,date)
-        ws.update_cell(i,4,p)
+        ws.update_cell(i,NUMBER_COLUMN,i-NUMBER_START_ROW)
+        ws.update_cell(i,DATE_COLUMN,date)
+        ws.update_cell(i,MONEY_COLUMN,p)
 
     #残金の計算#
     money_kazuya = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
     money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
     ws.update_cell(i,PERSON1_COLUMN, money_kazuya)
     ws.update_cell(i,PERSON2_COLUMN, money_kanoko)
-    return 'No. ' + str(i-4) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_kanoko) + '円'
+    return 'No. ' + str(i-NUMBER_START_ROW) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_kanoko) + '円'
 
 #「キャンセル」の関数#
 def cancel_gs_sheet():
-    i = 5
-    while not ws.cell(i, 2).value == None:
+    i=NUMBER_START_ROW
+    while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
     else:
         ws.delete_row(i-1)
-    return '最後の項目を削除しました'
+    return 'No. ' + str(i-(NUMBER_START_ROW+1)) +'を削除しました'
