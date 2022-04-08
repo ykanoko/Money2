@@ -23,15 +23,16 @@ gc = gspread.authorize(credentials)
 
 SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
-ws = wb.sheet1
-PERSON1_NAME='和也'
-PERSON2_NAME='花乃香'
-PERSON1_COLUMN=6
-PERSON2_COLUMN=7
-NUMBER_COLUMN=2
-NUMBER_START_ROW=4
-DATE_COLUMN=3
-MONEY_COLUMN=4
+ws = wb.get_worksheet(0)
+
+#PERSON1_NAME='和也'
+#PERSON2_NAME='花乃香'
+#PERSON1_COLUMN=6
+#PERSON2_COLUMN=7
+#NUMBER_COLUMN=2
+#NUMBER_START_ROW=4
+#DATE_COLUMN=3
+#MONEY_COLUMN=4
 
 #「支出」の関数#
 def pay_gs_sheet(p):
@@ -79,7 +80,7 @@ def cancel_gs_sheet():
     DATE_COLUMN=3
     MONEY_COLUMN=4
     #
-    
+
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
