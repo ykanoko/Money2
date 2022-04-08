@@ -32,7 +32,7 @@ def pay_gs_sheet(p):
     from time import strftime
     date = strftime("%Y/%m/%d", time.localtime())
     PERSON1_NAME='和也'
-    PERSON2_NAME='和也'
+    PERSON2_NAME='花乃香'
     PERSON1_COLUMN=6
     PERSON2_COLUMN=7
     i = 5
@@ -55,8 +55,8 @@ def pay_gs_sheet(p):
 #キャンセルの関数#
 def cancel_gs_sheet():
     i = 5
-    while not ws.cell(i, 1).value == None:
+    while not ws.cell(i, 2).value == None:
         i += 1
     else:
         ws.delete_row(i-1)
-    return '最後の項目を削除しました'
+    return '最終行の項目を削除しました'
