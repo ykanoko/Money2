@@ -54,7 +54,7 @@ def pay_gs_sheet(p):
 
 #キャンセルの関数#
 def cancel_gs_sheet():
-    i=4
+    i = 5
     while not ws.cell(i, 1).value == None:
         i += 1
     else:
