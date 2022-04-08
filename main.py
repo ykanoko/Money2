@@ -45,8 +45,9 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text='ヘルプだよん♪'))
-    else:
-        zannkinn = pay_gs_sheet(int(event.message.text))
+    
+    if event.message.text[:2]=='支出':
+        zannkinn = pay_gs_sheet(int(event.message.text[2:]))
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=zannkinn))
