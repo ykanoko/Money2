@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import pay_gs_sheet
+from gs_sheet import cancel_gs_sheet, pay_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -47,10 +47,17 @@ def handle_message(event):
             TextSendMessage(text='ヘルプだよん♪'))
     
     if event.message.text[:2]=='支出':
+        #[:2]←先頭の2文字(=支出)を指定
         zannkinn = pay_gs_sheet(int(event.message.text[2:]))
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=zannkinn))
+
+    if event.message.text[:2]=='削除':
+        cancel = cancel_gs_sheet(int[2:])
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=cancel))
             
     #if event.message.text=='スプシテスト':
         #message_text = test_gs_sheet()

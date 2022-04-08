@@ -31,6 +31,10 @@ def pay_gs_sheet(p):
     import time
     from time import strftime
     date = strftime("%Y/%m/%d", time.localtime())
+    PERSON1_NAME='和也'
+    PERSON2_NAME='和也'
+    PERSON1_COLUMN=6
+    PERSON2_COLUMN=7
     i = 5
     while not ws.cell(i, 2).value == None:
         print(ws.cell(i, 2).value)
@@ -42,8 +46,14 @@ def pay_gs_sheet(p):
         ws.update_cell(i,4,p)
 
     #残金の計算#
-    money_kazuya = int(ws.cell(i-1,6).value)-p/2
-    money_kanoko = int(ws.cell(i-1,7).value)-p/2
-    ws.update_cell(i,6, money_kazuya)
-    ws.update_cell(i,7, money_kanoko)
-    return '番号：' + str(i-4) +'\n' + '和也の残金：' + str(money_kazuya) + '円\n' + '花乃香の残金：' + str(money_kanoko) + '円'
+    money_kazuya = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
+    money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
+    ws.update_cell(i,PERSON1_COLUMN, money_kazuya)
+    ws.update_cell(i,PERSON2_COLUMN, money_kanoko)
+    return 'No. ' + str(i-4) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_kanoko) + '円'
+
+#キャンセルの関数#
+def cancel_gs_sheet():
+    c=ws.row_count
+    ws.delete_row(int(c))
+    return '最後の項目を削除しました'
