@@ -25,7 +25,7 @@ SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
 ws = wb.sheet1
 
-#支出の関数#
+#「支出」の関数#
 def pay_gs_sheet(p):
     #番号・日付date・2人で使った金額mの入力#
     import time
@@ -52,11 +52,11 @@ def pay_gs_sheet(p):
     ws.update_cell(i,PERSON2_COLUMN, money_kanoko)
     return 'No. ' + str(i-4) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_kanoko) + '円'
 
-#キャンセルの関数#
+#「キャンセル」の関数#
 def cancel_gs_sheet():
     i = 5
     while not ws.cell(i, 2).value == None:
         i += 1
     else:
         ws.delete_row(i-1)
-    return '最終行の項目を削除しました'
+    return '最後の項目を削除しました'
