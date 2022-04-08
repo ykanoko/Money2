@@ -54,6 +54,9 @@ def pay_gs_sheet(p):
 
 #キャンセルの関数#
 def cancel_gs_sheet():
-    c=ws.row_count
-    ws.delete_row(int(c))
+    i=4
+    while not ws.cell(i, 1).value == None:
+        i += 1
+    else:
+        ws.delete_row(i-1)
     return '最後の項目を削除しました'
