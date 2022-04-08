@@ -42,7 +42,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text=='ヘルプ':
-        help = "入力方法一覧\n" + "・支出〇〇円\n2人で使ったお金を記録します。" + "キャンセル\n最後の項目を削除します。"
+        help = "＜入力方法一覧＞\n" + "・支出〇〇円\n2人で使ったお金を記録します。/n" + "・キャンセル\n最後の項目を削除します。"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=help))
