@@ -53,8 +53,8 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=zannkinn))
 
-    if event.message.text[:2]=='削除':
-        cancel = cancel_gs_sheet(int[2:])
+    if event.message.text == 'キャンセル':
+        cancel = cancel_gs_sheet()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=cancel))
