@@ -83,4 +83,4 @@ def cancel_gs_sheet():
         i += 1
     else:
         ws.delete_row(i-1)
-    return 'No. ' + str(i-(NUMBER_START_ROW+1)) +'を削除しました'
+    return 'No. ' + str(i-(NUMBER_START_ROW+1)) +'を削除しました\n'+'No.'+ str(i-(NUMBER_START_ROW+1))+'\n'+'金額：' + str(ws.cell(i-1,MONEY_COLUMN).value)
