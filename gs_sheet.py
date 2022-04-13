@@ -64,7 +64,7 @@ def pay_gs_sheet(p):
     money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
     ws.update_cell(i,PERSON1_COLUMN, money_kazuya)
     ws.update_cell(i,PERSON2_COLUMN, money_kanoko)
-    return 'No. ' + str(i-NUMBER_START_ROW) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_kanoko) + '円'
+    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_kanoko) + '円'
 
 #「キャンセル」の関数#
 def cancel_gs_sheet():
@@ -84,4 +84,4 @@ def cancel_gs_sheet():
     else:
         cancel_money=str(ws.cell(i-1,MONEY_COLUMN).value)
         ws.delete_row(i-1)
-    return 'No. ' + str(i-(NUMBER_START_ROW+1)) +'を削除しました\n'+'No.'+ str(i-(NUMBER_START_ROW+1))+'\n'+'金額：' + cancel_money
+    return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
