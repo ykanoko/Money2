@@ -47,13 +47,13 @@ def pay_gs_sheet(p):
     PERSON1_COLUMN=6
     PERSON2_COLUMN=7
     NUMBER_COLUMN=2
-    NUMBER_START_ROW=4
+    NUMBER_START_ROW=5
     DATE_COLUMN=3
     MONEY_COLUMN=4
 
-    i=NUMBER_START_ROW+1
+    i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
-        print(ws.cell(i, NUMBER_COLUMN).value)
+        i += 1
     else:
         ws.update_cell(i,NUMBER_COLUMN,i-NUMBER_START_ROW)
         ws.update_cell(i,DATE_COLUMN,date)
@@ -74,7 +74,7 @@ def cancel_gs_sheet():
     PERSON1_COLUMN=6
     PERSON2_COLUMN=7
     NUMBER_COLUMN=2
-    NUMBER_START_ROW=4
+    NUMBER_START_ROW=5
     DATE_COLUMN=3
     MONEY_COLUMN=4
 
