@@ -60,11 +60,71 @@ def pay_gs_sheet(p):
         ws.update_cell(i,MONEY_COLUMN,p)
 
     #残金の計算#
-    money_kazuya = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
-    money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
-    ws.update_cell(i,PERSON1_COLUMN, money_kazuya)
-    ws.update_cell(i,PERSON2_COLUMN, money_kanoko)
-    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_kanoko) + '円'
+    pay_money_kazuya = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
+    pay_money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
+    ws.update_cell(i,PERSON1_COLUMN, pay_money_kazuya)
+    ws.update_cell(i,PERSON2_COLUMN, pay_money_kanoko)
+    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_money_kanoko) + '円'
+
+#「収入(PERSON1)」の関数#
+def gain_gs_sheet(g):
+    #番号・日付date・収入gの入力#
+    import time
+    from time import strftime
+    date = strftime("%Y/%m/%d", time.localtime())
+
+    #定義の使いまわし省略したいが、関数の外に書いたら動かなくなった
+    PERSON1_NAME='和也'
+    PERSON2_NAME='花乃香'
+    PERSON1_COLUMN=6
+    PERSON2_COLUMN=7
+    NUMBER_COLUMN=2
+    NUMBER_START_ROW=5
+    DATE_COLUMN=3
+    MONEY_COLUMN=4
+
+    i=NUMBER_START_ROW
+    while not ws.cell(i, NUMBER_COLUMN).value == None:
+        i += 1
+    else:
+        ws.update_cell(i,NUMBER_COLUMN,i-NUMBER_START_ROW)
+        ws.update_cell(i,DATE_COLUMN,date)
+        ws.update_cell(i,MONEY_COLUMN,g)
+
+    #残金の計算#
+    gain_money_kazuya = int(ws.cell(i-1,PERSON1_COLUMN).value)+g
+    ws.update_cell(i,PERSON1_COLUMN, gain_money_kazuya)
+    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_kazuya) + '円'
+
+#「収入(PERSON2)」の関数#
+def gain_gs_sheet(g):
+    #番号・日付date・収入gの入力#
+    import time
+    from time import strftime
+    date = strftime("%Y/%m/%d", time.localtime())
+
+    #定義の使いまわし省略したいが、関数の外に書いたら動かなくなった
+    PERSON1_NAME='和也'
+    PERSON2_NAME='花乃香'
+    PERSON1_COLUMN=6
+    PERSON2_COLUMN=7
+    NUMBER_COLUMN=2
+    NUMBER_START_ROW=5
+    DATE_COLUMN=3
+    MONEY_COLUMN=4
+
+    i=NUMBER_START_ROW
+    while not ws.cell(i, NUMBER_COLUMN).value == None:
+        i += 1
+    else:
+        ws.update_cell(i,NUMBER_COLUMN,i-NUMBER_START_ROW)
+        ws.update_cell(i,DATE_COLUMN,date)
+        ws.update_cell(i,MONEY_COLUMN,g)
+
+    #残金の計算#
+    gain_money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)+g
+    ws.update_cell(i,PERSON2_COLUMN, gain_money_kanoko)
+    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_kanoko) + '円'
 
 #「キャンセル」の関数#
 def cancel_gs_sheet():
