@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import cancel_gs_sheet, pay_gs_sheet
+from gs_sheet import cancel_gs_sheet, pay_gs_sheet, gain_person1_gs_sheet, gain_person2_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -42,7 +42,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text=='ヘルプ':
-        help = "＜入力方法一覧＞\n" + "・「支出〇〇円」\n"+"2人で使ったお金を記録します。\n" + "・「キャンセル」\n最後の項目を削除します。"
+        help = "＜入力方法一覧＞\n" + "・「支出〇〇」\n"+"2人で使ったお金を記録します。\n" + "・「キャンセル」\n最後の項目を削除します。\n" + "・「収入〇〇」\n"+"2人で使ったお金を記録します。"
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=help))
@@ -53,6 +53,18 @@ def handle_message(event):
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=zannkinn))
+    
+    if event.message.text[:4]=='収入和也':
+        money_person1 = gain_person1_gs_sheet(int(event.message.text[4:]))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=money_person1))
+    
+    if event.message.text[:5]=='収入花乃香':
+        money_person2 = gain_person2_gs_sheet(int(event.message.text[5:]))
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=money_person2))
 
     if event.message.text == 'キャンセル':
         cancel = cancel_gs_sheet()

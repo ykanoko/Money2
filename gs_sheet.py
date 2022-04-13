@@ -67,7 +67,7 @@ def pay_gs_sheet(p):
     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_money_kanoko) + '円'
 
 #「収入(PERSON1)」の関数#
-def gain_gs_sheet(g):
+def gain_person1_gs_sheet(g):
     #番号・日付date・収入gの入力#
     import time
     from time import strftime
@@ -97,7 +97,7 @@ def gain_gs_sheet(g):
     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_kazuya) + '円'
 
 #「収入(PERSON2)」の関数#
-def gain_gs_sheet(g):
+def gain_person2_gs_sheet(g):
     #番号・日付date・収入gの入力#
     import time
     from time import strftime
