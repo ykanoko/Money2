@@ -55,7 +55,7 @@ def pay_gs_sheet(p):
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
     else:
-        ws.update_cell(i,NUMBER_COLUMN,i-NUMBER_START_ROW)
+        ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
         ws.update_cell(i,DATE_COLUMN,date)
         ws.update_cell(i,MONEY_COLUMN,p)
 
