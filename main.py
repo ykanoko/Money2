@@ -49,10 +49,16 @@ def handle_message(event):
     
     if event.message.text[:2]=='支出':
         #[:2]←先頭の2文字(=支出)を指定
-        zannkinn = pay_gs_sheet(int(event.message.text[2:]))
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=zannkinn))
+        if PERSON1_NAME in event.message.text[2:]:
+            zannkinn1 = pay_gs_sheet(int(event.message.text[2+len(PERSON1_NAME):]),PERSON1_NAME)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=zannkinn1))
+        if PERSON2_NAME in event.message.text[2:]:
+            zannkinn2 = pay_gs_sheet(int(event.message.text[2+len(PERSON2_NAME):]),PERSON2_NAME)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=zannkinn2))
     
     #収入を入力
     if event.message.text[:2]=='収入':

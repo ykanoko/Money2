@@ -27,15 +27,16 @@ ws = wb.get_worksheet(0)
 
 PERSON1_NAME='和也'
 PERSON2_NAME='花乃香'
-PERSON1_COLUMN=6
-PERSON2_COLUMN=7
 NUMBER_COLUMN=2
-NUMBER_START_ROW=5
 DATE_COLUMN=3
 MONEY_COLUMN=4
+PAY_COLUMN=5
+PERSON1_COLUMN=6
+PERSON2_COLUMN=7
+NUMBER_START_ROW=5
 
 #「支出」の関数#
-def pay_gs_sheet(p):
+def pay_gs_sheet(p,q):
     #番号・日付date・2人で使った金額mの入力#
     import time
     from time import strftime
@@ -48,6 +49,7 @@ def pay_gs_sheet(p):
         ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
         ws.update_cell(i,DATE_COLUMN,date)
         ws.update_cell(i,MONEY_COLUMN,p)
+        ws.update_cell(i,PAY_COLUMN,q)
 
     #残金の計算#
     pay_money_kazuya = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
