@@ -41,7 +41,7 @@ def pay_gs_sheet(p,q):
     import time
     from time import strftime
     date = strftime("%Y/%m/%d", time.localtime())
-
+    #↑関数の外に出せない？毎回使う
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
@@ -102,7 +102,6 @@ def gain_gs_sheet(g,h):
 
 #「キャンセル」の関数#
 def cancel_gs_sheet():
-
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
@@ -110,3 +109,28 @@ def cancel_gs_sheet():
         cancel_money=str(ws.cell(i-1,MONEY_COLUMN).value)
         ws.delete_row(i-1)
     return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
+
+#清算の関数#
+def monthly_gs_sheet():
+    import time
+    from time import strftime
+    mounth_date = strftime("%Y/%m", time.localtime())
+    MOUNTH_NUMBER_COLUMN=8
+    MOUNTH_DATE_COLUMN=9
+    MOUNTH_MONEY_COLUMN=10
+    i=NUMBER_START_ROW
+    mounth_money=0
+    while mounth_date not in ws.cell(i, DATE_COLUMN).value:
+        i += 1
+    else:
+        while mounth_date in ws.cell(i, DATE_COLUMN).value:
+            mounth_money += int(ws.cell(i, MONEY_COLUMN).value)
+            i += 1
+        else:
+            ws.update_cell(4,MOUNTH_NUMBER_COLUMN,0)
+            ws.update_cell(4,MOUNTH_DATE_COLUMN,mounth_date)
+            ws.update_cell(4,MOUNTH_MONEY_COLUMN,mounth_money)
+    return str(mounth_date) +'の支出：' + str(mounth_money) + '円'
+
+      #2つめのシートに月の支出を入力
+    #支出の半額から払った分を引いたりして、払うべき人と金額を算出
