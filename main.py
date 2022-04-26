@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import PERSON1_NAME, PERSON2_NAME, cancel_gs_sheet, pay_gs_sheet, gain_gs_sheet
+from gs_sheet import PERSON1_NAME, PERSON2_NAME, pay_gs_sheet, gain_gs_sheet, cancel_gs_sheet, monthly_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -73,23 +73,18 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=gain_person2))
 
-    # if event.message.text[:4]=='収入和也':
-    #     gain_person1 = gain_gs_sheet(int(event.message.text[4:]),int(0))
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=gain_person1))
-    
-    # if event.message.text[:5]=='収入花乃香':
-    #     gain_person2 = gain_gs_sheet(int(0),int(event.message.text[5:]))
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=gain_person2))
-
     if event.message.text == 'キャンセル':
         cancel = cancel_gs_sheet()
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=cancel))
+
+    if event.message.text == '清算':
+        seisan=monthly_gs_sheet()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=seisan))
+
             
     #if event.message.text=='スプシテスト':
         #message_text = test_gs_sheet()
