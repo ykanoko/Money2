@@ -79,7 +79,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=cancel))
 
-    if event.message.text == '清算':
+    if event.message.text == '精算':
         seisan=monthly_gs_sheet()
         line_bot_api.reply_message(
             event.reply_token,
