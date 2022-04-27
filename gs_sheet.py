@@ -115,10 +115,9 @@ def monthly_gs_sheet():
             print(month_money2)
             if ws.cell(i, PAY_COLUMN).value == PERSON1_NAME:
                 paid_money_person1 += int(ws.cell(i, MONEY_COLUMN).value)
-                i += 1
             if ws.cell(i, PAY_COLUMN).value == PERSON2_NAME:
                 paid_money_person2 += int(ws.cell(i, MONEY_COLUMN).value)
-                i += 1
+            i += 1
         else:
             i += 1
 
