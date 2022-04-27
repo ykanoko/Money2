@@ -107,20 +107,27 @@ def monthly_gs_sheet():
 
     i=NUMBER_START_ROW
     month_money2=0
+    paid_money_person1=0
+    paid_money_person2=0
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         if month_date in ws.cell(i, DATE_COLUMN).value and ws.cell(i, PAY_COLUMN).value != None:
             month_money2 += int(ws.cell(i, MONEY_COLUMN).value)
-            i += 1
+            if ws.cell(i, PAY_COLUMN).value == PERSON1_NAME:
+                paid_money_person1 += int(ws.cell(i, MONEY_COLUMN).value)
+                i += 1
+            if ws.cell(i, PAY_COLUMN).value == PERSON2_NAME:
+                paid_money_person2 += int(ws.cell(i, MONEY_COLUMN).value)
+                i += 1
         else:
             i += 1
+
     month_money=month_money2/2
-    paid_money_person1=
-    paid_money_person2=
-    month_money_person1 = month_money - paid_money_person1
-    month_money_person2 = month_money - paid_money_person2
+    month_money_person1 = paid_money_person1 - month_money
+    month_money_person2 = paid_money_person2 - month_money
     ws.update_cell(4,MONTH_MONEY2_COLUMN,month_money2)
     ws.update_cell(4,MONTH_MONEY_COLUMN,month_money)
-
+    ws.update_cell(4,MONTH_PERSON1_COLUMN,month_money_person1)
+    ws.update_cell(4,MONTH_PERSON2_COLUMN,month_money_person2)
 
     return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円''\n' +'・支出：' + str(month_money) + '円'
 
