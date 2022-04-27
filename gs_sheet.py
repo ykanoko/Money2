@@ -99,8 +99,8 @@ def monthly_gs_sheet():
     MONTH_DATE_COLUMN=10
     MONTH_MONEY2_COLUMN=11
     MONTH_MONEY_COLUMN=12
-    MONTH_PERSON1_COLUMN=13
-    MONTH_PERSON2_COLUMN=14
+    MONTH_PAY_NAME_COLUMN=13
+    MONTH_PAY_MONEY_COLUMN=14
 
     ws.update_cell(4,MONTH_NUMBER_COLUMN,0)
     ws.update_cell(4,MONTH_DATE_COLUMN,month_date)
@@ -124,12 +124,18 @@ def monthly_gs_sheet():
     month_money=month_money2/2
     month_money_person1 = paid_money_person1 - month_money
     month_money_person2 = paid_money_person2 - month_money
+    if month_money_person1 < 0:
+        month_pay_name=PERSON1_NAME
+        month_pay_money = 0 - month_money_person1
+    else:
+        month_pay_name=PERSON2_NAME
+        month_pay_money = 0 - month_money_person2
+    ws.update_cell(4,MONTH_PAY_NAME_COLUMN,month_pay_name)
+    ws.update_cell(4,MONTH_PAY_MONEY_COLUMN,month_pay_money)
     ws.update_cell(4,MONTH_MONEY2_COLUMN,month_money2)
     ws.update_cell(4,MONTH_MONEY_COLUMN,month_money)
-    ws.update_cell(4,MONTH_PERSON1_COLUMN,month_money_person1)
-    ws.update_cell(4,MONTH_PERSON2_COLUMN,month_money_person2)
 
-    return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円''\n' +'・支出：' + str(month_money) + '円'
+    return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円\n'
 
       #2つめのシートに月の支出を入力
     #支出の半額から払った分を引いたりして、払うべき人と金額を算出
