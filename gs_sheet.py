@@ -112,6 +112,7 @@ def monthly_gs_sheet():
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         if month_date in ws.cell(i, DATE_COLUMN).value and ws.cell(i, PAY_COLUMN).value != None:
             month_money2 += int(ws.cell(i, MONEY_COLUMN).value)
+            print(month_money2)
             if ws.cell(i, PAY_COLUMN).value == PERSON1_NAME:
                 paid_money_person1 += int(ws.cell(i, MONEY_COLUMN).value)
                 i += 1
