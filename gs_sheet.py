@@ -94,24 +94,35 @@ def cancel_gs_sheet():
 def monthly_gs_sheet():
     import time
     from time import strftime
-    mounth_date = strftime("%Y/%m", time.localtime())
-    MOUNTH_NUMBER_COLUMN=9
-    MOUNTH_DATE_COLUMN=10
-    MOUNTH_MONEY_COLUMN=11
+    month_date = strftime("%Y/%m", time.localtime())
+    MONTH_NUMBER_COLUMN=9
+    MONTH_DATE_COLUMN=10
+    MONTH_MONEY2_COLUMN=11
+    MONTH_MONEY_COLUMN=12
+    MONTH_PERSON1_COLUMN=13
+    MONTH_PERSON2_COLUMN=14
 
-    ws.update_cell(4,MOUNTH_NUMBER_COLUMN,0)
-    ws.update_cell(4,MOUNTH_DATE_COLUMN,mounth_date)
+    ws.update_cell(4,MONTH_NUMBER_COLUMN,0)
+    ws.update_cell(4,MONTH_DATE_COLUMN,month_date)
 
     i=NUMBER_START_ROW
-    mounth_money=0
+    month_money2=0
     while not ws.cell(i, NUMBER_COLUMN).value == None:
-        if mounth_date in ws.cell(i, DATE_COLUMN).value and ws.cell(i, PAY_COLUMN).value != None:
-            mounth_money += int(ws.cell(i, MONEY_COLUMN).value)
+        if month_date in ws.cell(i, DATE_COLUMN).value and ws.cell(i, PAY_COLUMN).value != None:
+            month_money2 += int(ws.cell(i, MONEY_COLUMN).value)
             i += 1
         else:
             i += 1
-    ws.update_cell(4,MOUNTH_MONEY_COLUMN,mounth_money)
-    return str(mounth_date) +'の合計支出：' + str(mounth_money) + '円'
+    month_money=month_money2/2
+    paid_money_person1=
+    paid_money_person2=
+    month_money_person1 = month_money - paid_money_person1
+    month_money_person2 = month_money - paid_money_person2
+    ws.update_cell(4,MONTH_MONEY2_COLUMN,month_money2)
+    ws.update_cell(4,MONTH_MONEY_COLUMN,month_money)
+
+
+    return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円''\n' +'・支出：' + str(month_money) + '円'
 
       #2つめのシートに月の支出を入力
     #支出の半額から払った分を引いたりして、払うべき人と金額を算出
