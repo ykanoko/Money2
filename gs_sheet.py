@@ -95,9 +95,9 @@ def monthly_gs_sheet():
     import time
     from time import strftime
     mounth_date = strftime("%Y/%m", time.localtime())
-    MOUNTH_NUMBER_COLUMN=8
-    MOUNTH_DATE_COLUMN=9
-    MOUNTH_MONEY_COLUMN=10
+    MOUNTH_NUMBER_COLUMN=9
+    MOUNTH_DATE_COLUMN=10
+    MOUNTH_MONEY_COLUMN=11
 
     ws.update_cell(4,MOUNTH_NUMBER_COLUMN,0)
     ws.update_cell(4,MOUNTH_DATE_COLUMN,mounth_date)
@@ -105,10 +105,10 @@ def monthly_gs_sheet():
     i=NUMBER_START_ROW
     mounth_money=0
     while not ws.cell(i, NUMBER_COLUMN).value == None:
-        if mounth_date not in ws.cell(i, DATE_COLUMN).value:
+        if mounth_date in ws.cell(i, DATE_COLUMN).value and ws.cell(i, PAY_COLUMN).value != None:
+            mounth_money += int(ws.cell(i, MONEY_COLUMN).value)
             i += 1
         else:
-            mounth_money += int(ws.cell(i, MONEY_COLUMN).value)
             i += 1
     ws.update_cell(4,MOUNTH_MONEY_COLUMN,mounth_money)
     return str(mounth_date) +'の合計支出：' + str(mounth_money) + '円'
