@@ -80,26 +80,6 @@ def gain_gs_sheet(g,h):
     ws.update_cell(i,PERSON2_COLUMN, gain_money_person2)
     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_person1) + '円\n'+ str(PERSON2_NAME) + 'の残金：' + str(gain_money_person2) + '円'
 
-#「収入(PERSON2)」の関数#
-# def gain_person2_gs_sheet(g):
-#     #番号・日付date・収入gの入力#
-#     import time
-#     from time import strftime
-#     date = strftime("%Y/%m/%d", time.localtime())
-
-#     i=NUMBER_START_ROW
-#     while not ws.cell(i, NUMBER_COLUMN).value == None:
-#         i += 1
-#     else:
-#         ws.update_cell(i,NUMBER_COLUMN,i-NUMBER_START_ROW)
-#         ws.update_cell(i,DATE_COLUMN,date)
-#         ws.update_cell(i,MONEY_COLUMN,g)
-
-#     #残金の計算#
-#     gain_money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)+g
-#     ws.update_cell(i,PERSON2_COLUMN, gain_money_kanoko)
-#     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_kanoko) + '円'
-
 #「キャンセル」の関数#
 def cancel_gs_sheet():
     i=NUMBER_START_ROW
@@ -118,19 +98,20 @@ def monthly_gs_sheet():
     MOUNTH_NUMBER_COLUMN=8
     MOUNTH_DATE_COLUMN=9
     MOUNTH_MONEY_COLUMN=10
+
+    ws.update_cell(4,MOUNTH_NUMBER_COLUMN,0)
+    ws.update_cell(4,MOUNTH_DATE_COLUMN,mounth_date)
+
     i=NUMBER_START_ROW
     mounth_money=0
-    while mounth_date not in ws.cell(i, DATE_COLUMN).value:
-        i += 1
-    else:
-        while mounth_date in ws.cell(i, DATE_COLUMN).value:
-            mounth_money += int(ws.cell(i, MONEY_COLUMN).value)
+    while not ws.cell(i, NUMBER_COLUMN).value == None:
+        if mounth_date not in ws.cell(i, DATE_COLUMN).value:
             i += 1
         else:
-            ws.update_cell(4,MOUNTH_NUMBER_COLUMN,0)
-            ws.update_cell(4,MOUNTH_DATE_COLUMN,mounth_date)
-            ws.update_cell(4,MOUNTH_MONEY_COLUMN,mounth_money)
-    return str(mounth_date) +'の支出：' + str(mounth_money) + '円'
+            mounth_money += int(ws.cell(i, MONEY_COLUMN).value)
+            i += 1
+    ws.update_cell(4,MOUNTH_MONEY_COLUMN,mounth_money)
+    return str(mounth_date) +'の合計支出：' + str(mounth_money) + '円'
 
       #2つめのシートに月の支出を入力
     #支出の半額から払った分を引いたりして、払うべき人と金額を算出
