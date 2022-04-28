@@ -35,13 +35,12 @@ PERSON1_COLUMN=6
 PERSON2_COLUMN=7
 NUMBER_START_ROW=5
 
-#「支出」の関数#
-def pay_gs_sheet(p,q):
-    #番号・日付date・2人で使った金額mの入力#
+#「合計支出」の関数#
+def pay_sum_gs_sheet(p,q):
     import time
     from time import strftime
     date = strftime("%Y/%m/%d", time.localtime())
-    #↑関数の外に出せない？毎回使う
+
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
@@ -52,15 +51,35 @@ def pay_gs_sheet(p,q):
         ws.update_cell(i,PAY_COLUMN,q)
 
     #残金の計算#
-    pay_money_kazuya = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
-    pay_money_kanoko = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
-    ws.update_cell(i,PERSON1_COLUMN, pay_money_kazuya)
-    ws.update_cell(i,PERSON2_COLUMN, pay_money_kanoko)
-    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_money_kazuya) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_money_kanoko) + '円'
+    pay_sum_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
+    pay_sum_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
+    ws.update_cell(i,PERSON1_COLUMN, pay_sum_money_person1)
+    ws.update_cell(i,PERSON2_COLUMN, pay_sum_money_person2)
+    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_sum_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_sum_money_person2) + '円'
 
-#「収入(PERSON1)」の関数#
+#「（個人）支出」の関数#
+def pay_gs_sheet(p,q):
+    import time
+    from time import strftime
+    date = strftime("%Y/%m/%d", time.localtime())
+
+    i=NUMBER_START_ROW
+    while not ws.cell(i, NUMBER_COLUMN).value == None:
+        i += 1
+    else:
+        ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
+        ws.update_cell(i,DATE_COLUMN,date)
+        ws.update_cell(i,MONEY_COLUMN,p+q)
+
+    #残金の計算#
+    pay_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-p
+    pay_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-q
+    ws.update_cell(i,PERSON1_COLUMN, pay_money_person1)
+    ws.update_cell(i,PERSON2_COLUMN, pay_money_person2)
+    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_money_person2) + '円'
+
+#「収入」の関数#
 def gain_gs_sheet(g,h):
-    #番号・日付date・収入gの入力#
     import time
     from time import strftime
     date = strftime("%Y/%m/%d", time.localtime())
@@ -90,7 +109,7 @@ def cancel_gs_sheet():
         ws.delete_row(i-1)
     return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
 
-#清算の関数#
+#「清算」の関数#
 def monthly_gs_sheet():
     import time
     from time import strftime
@@ -135,6 +154,6 @@ def monthly_gs_sheet():
     ws.update_cell(4,MONTH_MONEY2_COLUMN,month_money2)
     ws.update_cell(4,MONTH_MONEY_COLUMN,month_money)
 
-    return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円\n'
+    return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円'
 
       #2つめのシートに月の支出を入力

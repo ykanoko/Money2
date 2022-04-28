@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import PERSON1_NAME, PERSON2_NAME, pay_gs_sheet, gain_gs_sheet, cancel_gs_sheet, monthly_gs_sheet
+from gs_sheet import PERSON1_NAME, PERSON2_NAME, pay_sum_gs_sheet, pay_gs_sheet, gain_gs_sheet, cancel_gs_sheet, monthly_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -42,23 +42,34 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     if event.message.text=='ヘルプ':
-        help = "＜入力方法一覧＞\n" + "・「支出（払った人）（金額）」\n"+"2人で使ったお金を記録します。\n" + "・「収入（名前）（金額）」\n"+"個人の収入を記録します。\n"+ "・「キャンセル」\n最後の項目を削除します。" 
+        help = "＜入力方法一覧＞\n" + "・「合計支出（払った人）（金額）」\n"+"2人で使ったお金を記録します。\n" + "・「収入（名前）（金額）」\n"+"個人の収入を記録します。\n"+ "・「キャンセル」\n最後の項目を削除します。" 
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=help))
     
+    if event.message.text[:4]=='合計支出':
+        if PERSON1_NAME in event.message.text[4:]:
+            pay_sum_person1 = pay_sum_gs_sheet(int(event.message.text[4+len(PERSON1_NAME):]),PERSON1_NAME)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=pay_sum_person1))
+        else:
+            pay_sum_person2 = pay_sum_gs_sheet(int(event.message.text[4+len(PERSON2_NAME):]),PERSON2_NAME)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=pay_sum_person2))
+
     if event.message.text[:2]=='支出':
-        #[:2]←先頭の2文字(=支出)を指定
         if PERSON1_NAME in event.message.text[2:]:
-            zannkinn1 = pay_gs_sheet(int(event.message.text[2+len(PERSON1_NAME):]),PERSON1_NAME)
+            pay_person1 = pay_gs_sheet(int(event.message.text[2+len(PERSON1_NAME):]),int(0))
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=zannkinn1))
-        if PERSON2_NAME in event.message.text[2:]:
-            zannkinn2 = pay_gs_sheet(int(event.message.text[2+len(PERSON2_NAME):]),PERSON2_NAME)
+                TextSendMessage(text=pay_person1))
+        else:
+            pay_person2 = pay_sum_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=zannkinn2))
+                TextSendMessage(text=pay_person2))
     
     #収入を入力
     if event.message.text[:2]=='収入':
