@@ -138,4 +138,3 @@ def monthly_gs_sheet():
     return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円\n'
 
       #2つめのシートに月の支出を入力
-    #支出の半額から払った分を引いたりして、払うべき人と金額を算出
