@@ -32,26 +32,28 @@ PERSON1_NAME='和也'
 PERSON2_NAME='花乃香'
 NUMBER_COLUMN=2
 DATE_COLUMN=3
-MONEY_COLUMN=4
-PAY_COLUMN=5
-PERSON1_COLUMN=6
-PERSON2_COLUMN=7
+TYPE_COLUMN=4
+MONEY_COLUMN=5
+PAY_COLUMN=6
+PERSON1_COLUMN=7
+PERSON2_COLUMN=8
 NUMBER_START_ROW=5
 
 #「合計支出」の関数#
-def pay_sum_gs_sheet(p,q):
+def pay_sum_gs_sheet(t,m,p):
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
     else:
         ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
         ws.update_cell(i,DATE_COLUMN,date)
-        ws.update_cell(i,MONEY_COLUMN,p)
-        ws.update_cell(i,PAY_COLUMN,q)
+        ws.update_cell(i,TYPE_COLUMN,t)
+        ws.update_cell(i,MONEY_COLUMN,m)
+        ws.update_cell(i,PAY_COLUMN,p)
 
     #残金の計算#
-    pay_sum_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-p/2
-    pay_sum_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-p/2
+    pay_sum_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-m/2
+    pay_sum_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-m/2
     ws.update_cell(i,PERSON1_COLUMN, pay_sum_money_person1)
     ws.update_cell(i,PERSON2_COLUMN, pay_sum_money_person2)
     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_sum_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_sum_money_person2) + '円'
@@ -102,12 +104,12 @@ def cancel_gs_sheet():
 
 #「清算」の関数#
 def monthly_gs_sheet():
-    MONTH_NUMBER_COLUMN=9
-    MONTH_DATE_COLUMN=10
-    MONTH_MONEY2_COLUMN=11
-    MONTH_MONEY_COLUMN=12
-    MONTH_PAY_NAME_COLUMN=13
-    MONTH_PAY_MONEY_COLUMN=14
+    MONTH_NUMBER_COLUMN=10
+    MONTH_DATE_COLUMN=11
+    MONTH_MONEY2_COLUMN=12
+    MONTH_MONEY_COLUMN=13
+    MONTH_PAY_NAME_COLUMN=14
+    MONTH_PAY_MONEY_COLUMN=15
 
     ws.update_cell(4,MONTH_NUMBER_COLUMN,0)
     ws.update_cell(4,MONTH_DATE_COLUMN,month_date)
