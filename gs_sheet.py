@@ -58,10 +58,6 @@ def pay_sum_gs_sheet(p,q):
 
 #「（個人）支出」の関数#
 def pay_gs_sheet(p,q):
-    import time
-    from time import strftime
-    date = strftime("%Y/%m/%d", time.localtime())
-
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
@@ -79,10 +75,6 @@ def pay_gs_sheet(p,q):
 
 #「収入」の関数#
 def gain_gs_sheet(g,h):
-    import time
-    from time import strftime
-    date = strftime("%Y/%m/%d", time.localtime())
-
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
@@ -110,9 +102,6 @@ def cancel_gs_sheet():
 
 #「清算」の関数#
 def monthly_gs_sheet():
-    import time
-    from time import strftime
-    month_date = strftime("%Y/%m", time.localtime())
     MONTH_NUMBER_COLUMN=9
     MONTH_DATE_COLUMN=10
     MONTH_MONEY2_COLUMN=11
