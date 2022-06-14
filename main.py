@@ -51,11 +51,13 @@ def handle_message(event):
         t='合計支出'
         if PERSON1_NAME in event.message.text[4:]:
             m = int(event.message.text[len(t)+len(PERSON1_NAME):])
+            n=0
             p = PERSON1_NAME
         else:
             m = int(event.message.text[len(t)+len(PERSON2_NAME):])
+            n=0
             p = PERSON2_NAME
-        pay_sum = pay_sum_gs_sheet(t,m,p)
+        pay_sum = pay_sum_gs_sheet(t,m,n,p)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=pay_sum))
@@ -77,7 +79,7 @@ def handle_message(event):
     
     #収入を入力
     if event.message.text[:2]=='収入':
-        t='支出'
+        t='収入'
         if PERSON1_NAME in event.message.text[2:]:
             m = int(event.message.text[len(t)+len(PERSON1_NAME):])
             n = 0

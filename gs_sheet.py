@@ -40,7 +40,7 @@ PERSON2_COLUMN=8
 NUMBER_START_ROW=5
 
 #「合計支出」の関数#
-def pay_sum_gs_sheet(t,m,p):
+def pay_sum_gs_sheet(t,m,n,p):
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
