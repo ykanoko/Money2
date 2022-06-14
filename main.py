@@ -149,17 +149,17 @@ def handle_message(event):
  
     # #残金変更
 
-    # if event.message.text == 'キャンセル':
-    #     cancel = cancel_gs_sheet()
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=cancel))
+    if event.message.text == 'キャンセル':
+        cancel = cancel_gs_sheet()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=cancel))
 
-    # if event.message.text == '精算':
-    #     seisan=monthly_gs_sheet()
-    #     line_bot_api.reply_message(
-    #         event.reply_token,
-    #         TextSendMessage(text=seisan))
+    if event.message.text == '精算':
+        seisan=monthly_gs_sheet()
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=seisan))
 
             
     #if event.message.text=='スプシテスト':
