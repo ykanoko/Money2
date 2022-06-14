@@ -72,27 +72,37 @@ def handle_message(event):
             p = PERSON2_NAME
         pay = pay_gs_sheet(t,m,n,p)
         line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=pay))
-
-        # else:
-        #     pay_person2 = pay_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
-        #     line_bot_api.reply_message(
-        #         event.reply_token,
-        #         TextSendMessage(text=pay_person2))
+            event.reply_token,
+            TextSendMessage(text=pay))
     
     #収入を入力
     if event.message.text[:2]=='収入':
+        t='支出'
         if PERSON1_NAME in event.message.text[2:]:
-            gain_person1 = gain_gs_sheet(int(event.message.text[2+len(PERSON1_NAME):]),int(0))
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=gain_person1))
+            m = int(event.message.text[len(t)+len(PERSON1_NAME):])
+            n = 0
+            p = PERSON1_NAME
         else:
-            gain_person2 = gain_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=gain_person2))
+            m = 0
+            n = int(event.message.text[len(t)+len(PERSON2_NAME):])
+            p = PERSON2_NAME
+        gain = gain_gs_sheet(t,m,n,p)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=gain))
+        
+        # if PERSON1_NAME in event.message.text[2:]:
+        #     gain_person1 = gain_gs_sheet(int(event.message.text[2+len(PERSON1_NAME):]),int(0))
+        #     line_bot_api.reply_message(
+        #         event.reply_token,
+        #         TextSendMessage(text=gain_person1))
+        # else:
+        #     gain_person2 = gain_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
+        #     line_bot_api.reply_message(
+        #         event.reply_token,
+        #         TextSendMessage(text=gain_person2))
+    
+    #残金変更
 
     if event.message.text == 'キャンセル':
         cancel = cancel_gs_sheet()

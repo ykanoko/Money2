@@ -78,18 +78,20 @@ def pay_gs_sheet(t,m,n,p):
     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_money_person2) + '円'
 
 #「収入」の関数#
-def gain_gs_sheet(g,h):
+def gain_gs_sheet(t,m,n,p):
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
     else:
         ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
         ws.update_cell(i,DATE_COLUMN,date)
-        ws.update_cell(i,MONEY_COLUMN,g+h)
+        ws.update_cell(i,TYPE_COLUMN,t)
+        ws.update_cell(i,MONEY_COLUMN,m+n)
+        ws.update_cell(i,PAY_COLUMN,p)
 
     #残金の計算#
-    gain_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)+g
-    gain_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)+h
+    gain_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)+m
+    gain_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)+n
     ws.update_cell(i,PERSON1_COLUMN, gain_money_person1)
     ws.update_cell(i,PERSON2_COLUMN, gain_money_person2)
     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_person1) + '円\n'+ str(PERSON2_NAME) + 'の残金：' + str(gain_money_person2) + '円'
