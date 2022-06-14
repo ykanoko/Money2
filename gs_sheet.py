@@ -1,6 +1,9 @@
 import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+import time
+from time import strftime
+date = strftime("%Y/%m/%d", time.localtime())
 
 scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
@@ -37,10 +40,6 @@ NUMBER_START_ROW=5
 
 #「合計支出」の関数#
 def pay_sum_gs_sheet(p,q):
-    import time
-    from time import strftime
-    date = strftime("%Y/%m/%d", time.localtime())
-
     i=NUMBER_START_ROW
     while not ws.cell(i, NUMBER_COLUMN).value == None:
         i += 1
