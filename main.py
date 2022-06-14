@@ -66,7 +66,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=pay_person1))
         else:
-            pay_person2 = pay_sum_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
+            pay_person2 = pay_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=pay_person2))
