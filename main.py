@@ -50,38 +50,36 @@ def handle_message(event):
     if event.message.text[:4]=='合計支出':
         t='合計支出'
         if PERSON1_NAME in event.message.text[4:]:
-            m=int(event.message.text[len(t)+len(PERSON1_NAME):])
-            p=PERSON1_NAME
-        if PERSON2_NAME in event.message.text[4:]:
-            m=int(event.message.text[len(t)+len(PERSON2_NAME):])
-            p=PERSON2_NAME
+            m = int(event.message.text[len(t)+len(PERSON1_NAME):])
+            p = PERSON1_NAME
+        else:
+            m = int(event.message.text[len(t)+len(PERSON2_NAME):])
+            p = PERSON2_NAME
         pay_sum = pay_sum_gs_sheet(t,m,p)
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=pay_sum))
 
-        # if PERSON1_NAME in event.message.text[4:]:
-        #     pay_sum_person1 = pay_sum_gs_sheet(int(event.message.text[4+len(PERSON1_NAME):]),PERSON1_NAME)
-        #     line_bot_api.reply_message(
-        #         event.reply_token,
-        #         TextSendMessage(text=pay_sum_person1))
-        # else:
-        #     pay_sum_person2 = pay_sum_gs_sheet(int(event.message.text[4+len(PERSON2_NAME):]),PERSON2_NAME)
-        #     line_bot_api.reply_message(
-        #         event.reply_token,
-        #         TextSendMessage(text=pay_sum_person2))
-
     if event.message.text[:2]=='支出':
+        t='支出'
         if PERSON1_NAME in event.message.text[2:]:
-            pay_person1 = pay_gs_sheet(int(event.message.text[2+len(PERSON1_NAME):]),int(0))
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=pay_person1))
+            m = int(event.message.text[len(t)+len(PERSON1_NAME):])
+            n = 0
+            p = PERSON1_NAME
         else:
-            pay_person2 = pay_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=pay_person2))
+            m = 0
+            n = int(event.message.text[len(t)+len(PERSON2_NAME):])
+            p = PERSON2_NAME
+        pay = pay_gs_sheet(t,m,n,p)
+        line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=pay))
+
+        # else:
+        #     pay_person2 = pay_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
+        #     line_bot_api.reply_message(
+        #         event.reply_token,
+        #         TextSendMessage(text=pay_person2))
     
     #収入を入力
     if event.message.text[:2]=='収入':
