@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import PERSON1_NAME, PERSON2_NAME, pay_sum_gs_sheet, pay_gs_sheet, gain_gs_sheet, cancel_gs_sheet, monthly_gs_sheet
+from gs_sheet import PERSON1_NAME, PERSON2_NAME, money_gs_sheet, pay_sum_gs_sheet, pay_gs_sheet, gain_gs_sheet, cancel_gs_sheet, monthly_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -47,20 +47,74 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=help))
     
+
+    #if PERSON1_NAME in event.message.text:
+    #     p = PERSON1_NAME
+    #     m = int(event.message.text[len(t)+len(p):])
+    #     n = 0
+    #     if '合計支出' in event.message.text:
+    #         t = '合計支出'
+    #     if '支出' in event.message.text:
+    #         t = '支出'
+    #     if '収入' in event.message.text:
+    #         t = '収入'
+    #     money = money_gs_sheet(t,m,n,p)
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text=money))
+    # else:
+    #     p = PERSON2_NAME
+    #     m = 0
+    #     n = int(event.message.text[len(t)+len(PERSON2_NAME):])
+    #     if '合計支出' in event.message.text:
+    #         t = '合計支出'
+    #     if '支出' in event.message.text:
+    #         t = '支出'
+    #     if '収入' in event.message.text:
+    #         t = '収入'
+    #     money = money_gs_sheet(t,m,n,p)
+    #     line_bot_api.reply_message(
+    #         event.reply_token,
+    #         TextSendMessage(text=money))
+
+    if PERSON1_NAME in event.message.text or PERSON2_NAME in event.message.text:
+        if '合計支出' in event.message.text:
+            t = '合計支出'
+        elif '支出' in event.message.text:
+            t = '支出'
+        elif '収入' in event.message.text:
+            t = '収入'
+        
+        if PERSON1_NAME in event.message.text:
+            p = PERSON1_NAME
+            m = int(event.message.text[len(t)+len(p):])
+            n = 0
+        else:
+            p = PERSON2_NAME
+            m = 0
+            n = int(event.message.text[len(t)+len(PERSON2_NAME):])
+        money = money_gs_sheet(t,m,n,p)
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=money))            
+
+
+
+
     if event.message.text[:4]=='合計支出':
         t='合計支出'
         if PERSON1_NAME in event.message.text[4:]:
             m = int(event.message.text[len(t)+len(PERSON1_NAME):])
-            n=0
+            n = 0
             p = PERSON1_NAME
         else:
             m = int(event.message.text[len(t)+len(PERSON2_NAME):])
-            n=0
+            n = 0
             p = PERSON2_NAME
-        pay_sum = pay_sum_gs_sheet(t,m,n,p)
+        money = money_gs_sheet(t,m,n,p)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=pay_sum))
+            TextSendMessage(text=money))
 
     if event.message.text[:2]=='支出':
         t='支出'
@@ -72,10 +126,10 @@ def handle_message(event):
             m = 0
             n = int(event.message.text[len(t)+len(PERSON2_NAME):])
             p = PERSON2_NAME
-        pay = pay_gs_sheet(t,m,n,p)
+        money = money_gs_sheet(t,m,n,p)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=pay))
+            TextSendMessage(text=money))
     
     #収入を入力
     if event.message.text[:2]=='収入':
@@ -88,22 +142,11 @@ def handle_message(event):
             m = 0
             n = int(event.message.text[len(t)+len(PERSON2_NAME):])
             p = PERSON2_NAME
-        gain = gain_gs_sheet(t,m,n,p)
+        money = money_gs_sheet(t,m,n,p)
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=gain))
-        
-        # if PERSON1_NAME in event.message.text[2:]:
-        #     gain_person1 = gain_gs_sheet(int(event.message.text[2+len(PERSON1_NAME):]),int(0))
-        #     line_bot_api.reply_message(
-        #         event.reply_token,
-        #         TextSendMessage(text=gain_person1))
-        # else:
-        #     gain_person2 = gain_gs_sheet(int(0),int(event.message.text[2+len(PERSON2_NAME):]))
-        #     line_bot_api.reply_message(
-        #         event.reply_token,
-        #         TextSendMessage(text=gain_person2))
-    
+            TextSendMessage(text=money))
+ 
     #残金変更
 
     if event.message.text == 'キャンセル':
