@@ -63,6 +63,7 @@ def handle_message(event):
             p = PERSON2_NAME
             m = 0
             n = int(event.message.text[len(t)+len(p):])
+            
         money = money_gs_sheet(t,m,n,p)
         line_bot_api.reply_message(
             event.reply_token,

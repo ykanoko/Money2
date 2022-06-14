@@ -39,18 +39,6 @@ PERSON1_COLUMN=7
 PERSON2_COLUMN=8
 NUMBER_START_ROW=5
 
-#収支の関数のパーツ（該当する行を指定、情報を入力）
-def money_base_gs_sheet(t,m,n,p):
-    i=NUMBER_START_ROW
-    while not ws.cell(i, NUMBER_COLUMN).value == None:
-        i += 1
-    else:
-        ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
-        ws.update_cell(i,DATE_COLUMN,date)
-        ws.update_cell(i,TYPE_COLUMN,t)
-        ws.update_cell(i,MONEY_COLUMN,m+n)
-        ws.update_cell(i,PAY_COLUMN,p)
-
 #関数（収支）を1個にまとめる
 def money_gs_sheet(t,m,n,p):
     i=NUMBER_START_ROW
@@ -64,60 +52,22 @@ def money_gs_sheet(t,m,n,p):
         ws.update_cell(i,PAY_COLUMN,p)
     
     if t=='合計支出':
-        pay_sum_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-(m+n)/2
-        pay_sum_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-(m+n)/2
-        ws.update_cell(i,PERSON1_COLUMN, pay_sum_money_person1)
-        ws.update_cell(i,PERSON2_COLUMN, pay_sum_money_person2)
-        return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_sum_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_sum_money_person2) + '円'
+        money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-(m+n)/2
+        money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-(m+n)/2
+        ws.update_cell(i,PERSON1_COLUMN, money_person1)
+        ws.update_cell(i,PERSON2_COLUMN, money_person2)
+    elif t=='支出':
+        money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-m
+        money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-n
+        ws.update_cell(i,PERSON1_COLUMN, money_person1)
+        ws.update_cell(i,PERSON2_COLUMN, money_person2)
+    elif t=='収入':
+        money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)+m
+        money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)+n
+        ws.update_cell(i,PERSON1_COLUMN, money_person1)
+        ws.update_cell(i,PERSON2_COLUMN, money_person2)
 
-    if t=='支出':
-        pay_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-m
-        pay_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-n
-        ws.update_cell(i,PERSON1_COLUMN, pay_money_person1)
-        ws.update_cell(i,PERSON2_COLUMN, pay_money_person2)
-        return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_money_person2) + '円'
-
-    if t=='収入':
-        gain_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)+m
-        gain_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)+n
-        ws.update_cell(i,PERSON1_COLUMN, gain_money_person1)
-        ws.update_cell(i,PERSON2_COLUMN, gain_money_person2)
-        return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_person1) + '円\n'+ str(PERSON2_NAME) + 'の残金：' + str(gain_money_person2) + '円'
-
-
-
-#「合計支出」の関数#
-def pay_sum_gs_sheet(t,m,n,p):
-    money_base_gs_sheet(t,m,n,p)
-
-    #残金の計算#
-    pay_sum_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-m/2
-    pay_sum_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-m/2
-    ws.update_cell(i,PERSON1_COLUMN, pay_sum_money_person1)
-    ws.update_cell(i,PERSON2_COLUMN, pay_sum_money_person2)
-    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_sum_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_sum_money_person2) + '円'
-
-#「（個人）支出」の関数#
-def pay_gs_sheet(t,m,n,p):
-    money_base_gs_sheet(t,m,n,p)
-
-    #残金の計算#
-    pay_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-m
-    pay_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-n
-    ws.update_cell(i,PERSON1_COLUMN, pay_money_person1)
-    ws.update_cell(i,PERSON2_COLUMN, pay_money_person2)
-    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(pay_money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(pay_money_person2) + '円'
-
-#「収入」の関数#
-def gain_gs_sheet(t,m,n,p):
-    money_base_gs_sheet(t,m,n,p)
-
-    #残金の計算#
-    gain_money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)+m
-    gain_money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)+n
-    ws.update_cell(i,PERSON1_COLUMN, gain_money_person1)
-    ws.update_cell(i,PERSON2_COLUMN, gain_money_person2)
-    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(gain_money_person1) + '円\n'+ str(PERSON2_NAME) + 'の残金：' + str(gain_money_person2) + '円'
+    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円'
 
 #「キャンセル」の関数#
 def cancel_gs_sheet():
