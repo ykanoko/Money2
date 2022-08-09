@@ -54,14 +54,14 @@ def money_gs_sheet(t,m,n,p):
         ws.update_cell(i,PAY_COLUMN,p)
     
     if t=='合計支出':
-        money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-(m+n)/2
-        money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-(m+n)/2
+        money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)-(m+n)/2
+        money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)-(m+n)/2
     elif t=='支出':
-        money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)-m
-        money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)-n
+        money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)-m
+        money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)-n
     elif t=='収入':
-        money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)+m
-        money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)+n
+        money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)+m
+        money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)+n
     print("ok")
     ws.update_cell(i,PERSON1_COLUMN, str(money_person1))
     ws.update_cell(i,PERSON2_COLUMN, str(money_person2))
