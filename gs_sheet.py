@@ -32,14 +32,14 @@ month_date = strftime("%Y/%m", time.localtime())
 
 PERSON1_NAME='和也'
 PERSON2_NAME='花乃香'
-NUMBER_COLUMN=2
-DATE_COLUMN=3
-TYPE_COLUMN=4
-MONEY_COLUMN=5
-PAY_COLUMN=6
-PERSON1_COLUMN=7
-PERSON2_COLUMN=8
-NUMBER_START_ROW=5
+NUMBER_COLUMN=1
+DATE_COLUMN=2
+TYPE_COLUMN=3
+MONEY_COLUMN=4
+PAY_COLUMN=5
+PERSON1_COLUMN=6
+PERSON2_COLUMN=7
+NUMBER_START_ROW=3
 
 #関数（収支）を1個にまとめる
 def money_gs_sheet(t,m,n,p):
@@ -78,13 +78,14 @@ def cancel_gs_sheet():
     return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
 
 #「清算」の関数#
+      #機能追加：2つめのシートに月の支出を入力
 def monthly_gs_sheet():
-    MONTH_NUMBER_COLUMN=10
-    MONTH_DATE_COLUMN=11
-    MONTH_MONEY2_COLUMN=12
-    MONTH_MONEY_COLUMN=13
-    MONTH_PAY_NAME_COLUMN=14
-    MONTH_PAY_MONEY_COLUMN=15
+    MONTH_NUMBER_COLUMN=9
+    MONTH_DATE_COLUMN=10
+    MONTH_MONEY2_COLUMN=11
+    MONTH_MONEY_COLUMN=12
+    MONTH_PAY_NAME_COLUMN=13
+    MONTH_PAY_MONEY_COLUMN=14
 
     j=NUMBER_START_ROW
     month_money2=0
@@ -123,5 +124,3 @@ def monthly_gs_sheet():
         ws.update_cell(i,MONTH_PAY_MONEY_COLUMN,month_pay_money)
 
     return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円'
-
-      #2つめのシートに月の支出を入力
