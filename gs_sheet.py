@@ -62,9 +62,9 @@ def money_gs_sheet(t,m,n,p):
     elif t=='収入':
         money_person1 = int(ws.cell(i-1,PERSON1_COLUMN).value)+m
         money_person2 = int(ws.cell(i-1,PERSON2_COLUMN).value)+n
-    
-    ws.update_cell(i,PERSON1_COLUMN, money_person1)
-    ws.update_cell(i,PERSON2_COLUMN, money_person2)
+    print("ok")
+    ws.update_cell(i,PERSON1_COLUMN, str(money_person1))
+    ws.update_cell(i,PERSON2_COLUMN, str(money_person2))
     return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円'
 
 #「キャンセル」の関数#
