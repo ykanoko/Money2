@@ -92,12 +92,12 @@ def monthly_gs_sheet():
     paid_money_person1=0
     paid_money_person2=0
     while not ws.cell(j, NUMBER_COLUMN).value == None:
-        if '2022/06' or '2022/07' in ws.cell(j, DATE_COLUMN).value and ws.cell(j, TYPE_COLUMN).value == '合計支出':
-            month_money2 += int(ws.cell(j, MONEY_COLUMN).value)
+        if '2022/06' in ws.cell(j, DATE_COLUMN).value and ws.cell(j, TYPE_COLUMN).value == '合計支出':
+            month_money2 += float(ws.cell(j, MONEY_COLUMN).value)
             if ws.cell(j, PAY_COLUMN).value == PERSON1_NAME:
-                paid_money_person1 += int(ws.cell(j, MONEY_COLUMN).value)
+                paid_money_person1 += float(ws.cell(j, MONEY_COLUMN).value)
             if ws.cell(j, PAY_COLUMN).value == PERSON2_NAME:
-                paid_money_person2 += int(ws.cell(j, MONEY_COLUMN).value)
+                paid_money_person2 += float(ws.cell(j, MONEY_COLUMN).value)
             j += 1
         else:
             j += 1
@@ -119,7 +119,7 @@ def monthly_gs_sheet():
         ws.update_cell(i,MONTH_NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
         ws.update_cell(i,MONTH_DATE_COLUMN,month_date)
         ws.update_cell(i,MONTH_MONEY2_COLUMN,month_money2)
-        ws.update_cell(i,MONTH_MONEY_COLUMN,month_money)
+        ws.update_cell(i,MONTH_MONEY_COLUMN,str(month_money))
         ws.update_cell(i,MONTH_PAY_NAME_COLUMN,month_pay_name)
         ws.update_cell(i,MONTH_PAY_MONEY_COLUMN,month_pay_money)
 

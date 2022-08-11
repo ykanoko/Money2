@@ -83,10 +83,15 @@ def handle_message(event):
             TextSendMessage(text=cancel))
 
     if event.message.text == '精算':
-        seisan=monthly_gs_sheet()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=seisan))
+        try:
+            seisan=monthly_gs_sheet()
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=seisan))
+        except Exception as error:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=error))
 
             
     #if event.message.text=='スプシテスト':
