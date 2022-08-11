@@ -64,11 +64,16 @@ def handle_message(event):
             m = 0
             n = int(event.message.text[len(t)+len(p):])
             
-        money = money_gs_sheet(t,m,n,p)
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=money))            
- 
+        try:
+            money = money_gs_sheet(t,m,n,p)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=money))
+        except Exception as error:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=error))
+
     # #残金変更
 
     if event.message.text == 'キャンセル':
