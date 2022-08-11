@@ -43,30 +43,33 @@ NUMBER_START_ROW=2
 
 #関数（収支）を1個にまとめる
 def money_gs_sheet(t,m,n,p):
-    i=NUMBER_START_ROW
-    while not ws.cell(i, NUMBER_COLUMN).value == None:
-        i += 1
-    else:
-        ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
-        ws.update_cell(i,DATE_COLUMN,date)
-        ws.update_cell(i,TYPE_COLUMN,t)
-        ws.update_cell(i,MONEY_COLUMN,m+n)
-        ws.update_cell(i,PAY_COLUMN,p)
-    
-    if t=='合計支出':
-        money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)-(m+n)/2
-        money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)-(m+n)/2
-    elif t=='支出':
-        money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)-m
-        money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)-n
-    elif t=='収入':
-        money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)+m
-        money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)+n
-    print("ok")
-    ws.update_cell(i,PERSON1_COLUMN, str(money_person1))
-    ws.update_cell(i,PERSON2_COLUMN, str(money_person2))
-    return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円'
+    try:
+        i=NUMBER_START_ROW
+        while not ws.cell(i, NUMBER_COLUMN).value == None:
+            i += 1
+        else:
+            ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
+            ws.update_cell(i,DATE_COLUMN,date)
+            ws.update_cell(i,TYPE_COLUMN,t)
+            ws.update_cell(i,MONEY_COLUMN,m+n)
+            ws.update_cell(i,PAY_COLUMN,p)
+        
+        if t=='合計支出':
+            money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)-(m+n)/2
+            money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)-(m+n)/2
+        elif t=='支出':
+            money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)-m
+            money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)-n
+        elif t=='収入':
+            money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)+m
+            money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value)+n
 
+        ws.update_cell(i,PERSON1_COLUMN, str(money_person1))
+        ws.update_cell(i,PERSON2_COLUMN, str(money_person2))
+        return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円'
+    except Exception as e:
+        raise
+        
 #「キャンセル」の関数#
 def cancel_gs_sheet():
     i=NUMBER_START_ROW
@@ -87,40 +90,43 @@ def monthly_gs_sheet():
     MONTH_PAY_NAME_COLUMN=13
     MONTH_PAY_MONEY_COLUMN=14
 
-    j=NUMBER_START_ROW
-    month_money2=0
-    paid_money_person1=0
-    paid_money_person2=0
-    while not ws.cell(j, NUMBER_COLUMN).value == None:
-        if '2022/06' in ws.cell(j, DATE_COLUMN).value or '2022/07' in ws.cell(j, DATE_COLUMN).value and ws.cell(j, TYPE_COLUMN).value == '合計支出':
-            month_money2 += float(ws.cell(j, MONEY_COLUMN).value)
-            if ws.cell(j, PAY_COLUMN).value == PERSON1_NAME:
-                paid_money_person1 += float(ws.cell(j, MONEY_COLUMN).value)
-            if ws.cell(j, PAY_COLUMN).value == PERSON2_NAME:
-                paid_money_person2 += float(ws.cell(j, MONEY_COLUMN).value)
-            j += 1
+    try:
+        j=NUMBER_START_ROW
+        month_money2=0
+        paid_money_person1=0
+        paid_money_person2=0
+        while not ws.cell(j, NUMBER_COLUMN).value == None:
+            if '2022/06' in ws.cell(j, DATE_COLUMN).value or '2022/07' in ws.cell(j, DATE_COLUMN).value and ws.cell(j, TYPE_COLUMN).value == '合計支出':
+                month_money2 += float(ws.cell(j, MONEY_COLUMN).value)
+                if ws.cell(j, PAY_COLUMN).value == PERSON1_NAME:
+                    paid_money_person1 += float(ws.cell(j, MONEY_COLUMN).value)
+                if ws.cell(j, PAY_COLUMN).value == PERSON2_NAME:
+                    paid_money_person2 += float(ws.cell(j, MONEY_COLUMN).value)
+                j += 1
+            else:
+                j += 1
+
+        month_money=month_money2/2
+        month_money_person1 = paid_money_person1 - month_money
+        month_money_person2 = paid_money_person2 - month_money
+        if month_money_person1 < 0:
+            month_pay_name=PERSON1_NAME
+            month_pay_money = 0 - month_money_person1
         else:
-            j += 1
+            month_pay_name=PERSON2_NAME
+            month_pay_money = 0 - month_money_person2
+        
+        i=NUMBER_START_ROW
+        while not ws.cell(i, MONTH_NUMBER_COLUMN).value == None:
+            i += 1
+        else:
+            ws.update_cell(i,MONTH_NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
+            ws.update_cell(i,MONTH_DATE_COLUMN,month_date)
+            ws.update_cell(i,MONTH_MONEY2_COLUMN,month_money2)
+            ws.update_cell(i,MONTH_MONEY_COLUMN,str(month_money))
+            ws.update_cell(i,MONTH_PAY_NAME_COLUMN,month_pay_name)
+            ws.update_cell(i,MONTH_PAY_MONEY_COLUMN,month_pay_money)
 
-    month_money=month_money2/2
-    month_money_person1 = paid_money_person1 - month_money
-    month_money_person2 = paid_money_person2 - month_money
-    if month_money_person1 < 0:
-        month_pay_name=PERSON1_NAME
-        month_pay_money = 0 - month_money_person1
-    else:
-        month_pay_name=PERSON2_NAME
-        month_pay_money = 0 - month_money_person2
-    
-    i=NUMBER_START_ROW
-    while not ws.cell(i, MONTH_NUMBER_COLUMN).value == None:
-        i += 1
-    else:
-        ws.update_cell(i,MONTH_NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
-        ws.update_cell(i,MONTH_DATE_COLUMN,month_date)
-        ws.update_cell(i,MONTH_MONEY2_COLUMN,month_money2)
-        ws.update_cell(i,MONTH_MONEY_COLUMN,str(month_money))
-        ws.update_cell(i,MONTH_PAY_NAME_COLUMN,month_pay_name)
-        ws.update_cell(i,MONTH_PAY_MONEY_COLUMN,month_pay_money)
-
-    return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円'
+        return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円'
+    except Exception as e:
+        raise

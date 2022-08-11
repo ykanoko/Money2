@@ -72,7 +72,7 @@ def handle_message(event):
         except Exception as error:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=error))
+                TextSendMessage(text=str(error)))
 
     # #残金変更
 
@@ -91,7 +91,7 @@ def handle_message(event):
         except Exception as error:
             line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=error))
+                TextSendMessage(text=str(error)))
 
             
     #if event.message.text=='スプシテスト':
