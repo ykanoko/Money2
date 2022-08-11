@@ -92,7 +92,7 @@ def monthly_gs_sheet():
     paid_money_person1=0
     paid_money_person2=0
     while not ws.cell(j, NUMBER_COLUMN).value == None:
-        if month_date in ws.cell(j, DATE_COLUMN).value and ws.cell(j, TYPE_COLUMN).value == '合計支出':
+        if '2022/06' or '2022/07' in ws.cell(j, DATE_COLUMN).value and ws.cell(j, TYPE_COLUMN).value == '合計支出':
             month_money2 += int(ws.cell(j, MONEY_COLUMN).value)
             if ws.cell(j, PAY_COLUMN).value == PERSON1_NAME:
                 paid_money_person1 += int(ws.cell(j, MONEY_COLUMN).value)
