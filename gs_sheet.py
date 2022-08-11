@@ -25,7 +25,7 @@ gc = gspread.authorize(credentials)
 
 SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
-ws = wb.get_worksheet('実験')
+ws = wb.worksheet('実験')
 
 date = strftime("%Y/%m/%d", time.localtime())
 month_date = strftime("%Y/%m", time.localtime())
