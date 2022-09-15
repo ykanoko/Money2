@@ -39,12 +39,17 @@ MONEY_COLUMN=4
 PAY_COLUMN=5
 PERSON1_COLUMN=6
 PERSON2_COLUMN=7
+CURRENT_NUMBER_COLUMN=8
+CURRENT_NUMBER_ROW=2
 NUMBER_START_ROW=2
 
 #関数（収支）を1個にまとめる
 def money_gs_sheet(t,m,n,p):
     try:
-        i=NUMBER_START_ROW
+        if int(ws.cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN).value) > 5:
+            i = int(ws.cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN).value)
+        else:
+            i=NUMBER_START_ROW
         while not ws.cell(i, NUMBER_COLUMN).value == None:
             i += 1
         else:
@@ -53,6 +58,7 @@ def money_gs_sheet(t,m,n,p):
             ws.update_cell(i,TYPE_COLUMN,t)
             ws.update_cell(i,MONEY_COLUMN,m+n)
             ws.update_cell(i,PAY_COLUMN,p)
+            ws.update_cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN,i-NUMBER_START_ROW)
         
         if t=='合計支出':
             money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value)-(m+n)/2
