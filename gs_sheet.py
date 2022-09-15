@@ -53,7 +53,7 @@ def money_gs_sheet(t,m,n,p):
         while not ws.cell(i, NUMBER_COLUMN).value == None:
             i += 1
         else:
-            ws.update_cell(i,NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
+            ws.update_cell(i,NUMBER_COLUMN,i-NUMBER_START_ROW)
             ws.update_cell(i,DATE_COLUMN,date)
             ws.update_cell(i,TYPE_COLUMN,t)
             ws.update_cell(i,MONEY_COLUMN,m+n)
@@ -72,7 +72,7 @@ def money_gs_sheet(t,m,n,p):
 
         ws.update_cell(i,PERSON1_COLUMN, str(money_person1))
         ws.update_cell(i,PERSON2_COLUMN, str(money_person2))
-        return 'No. ' + str(i-(NUMBER_START_ROW-1)) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円'
+        return 'No. ' + str(i-NUMBER_START_ROW) +'\n' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円'
     except Exception as e:
         raise
         
