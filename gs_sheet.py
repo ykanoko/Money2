@@ -83,7 +83,6 @@ def cancel_gs_sheet():
             i = int(ws.cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN).value)
         else:
             i=NUMBER_START_ROW
-        i=NUMBER_START_ROW
         while not ws.cell(i, NUMBER_COLUMN).value == None:
             i += 1
         else:
@@ -92,6 +91,7 @@ def cancel_gs_sheet():
             ws.update_cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN,i-(NUMBER_START_ROW+1))
         return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
     except Exception as e:
+        print(e)
         raise
 
 #「清算」の関数#
