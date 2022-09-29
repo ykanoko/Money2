@@ -78,13 +78,21 @@ def money_gs_sheet(t,m,n,p):
         
 #「キャンセル」の関数#
 def cancel_gs_sheet():
-    i=NUMBER_START_ROW
-    while not ws.cell(i, NUMBER_COLUMN).value == None:
-        i += 1
-    else:
-        cancel_money=str(ws.cell(i-1,MONEY_COLUMN).value)
-        ws.delete_row(i-1)
-    return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
+    try:
+        if int(ws.cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN).value) > 5:
+            i = int(ws.cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN).value)
+        else:
+            i=NUMBER_START_ROW
+        i=NUMBER_START_ROW
+        while not ws.cell(i, NUMBER_COLUMN).value == None:
+            i += 1
+        else:
+            cancel_money=str(ws.cell(i-1,MONEY_COLUMN).value)
+            ws.delete_row(i-1)
+            ws.update_cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN,i-(NUMBER_START_ROW+1))
+        return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
+    except Exception as e:
+        raise
 
 #「清算」の関数#
       #機能追加：2つめのシートに月の支出を入力
