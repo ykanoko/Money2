@@ -77,10 +77,15 @@ def handle_message(event):
     # #残金変更
 
     if event.message.text == 'キャンセル':
-        cancel = cancel_gs_sheet()
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=cancel))
+        try:
+            cancel = cancel_gs_sheet()
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=cancel))
+        except Exception as error:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=str(error)))
 
     if event.message.text == '精算':
         try:
