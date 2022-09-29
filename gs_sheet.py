@@ -88,10 +88,9 @@ def cancel_gs_sheet():
         else:
             cancel_money=str(ws.cell(i-1,MONEY_COLUMN).value)
             ws.delete_row(i-1)
-            ws.update_cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN,i-(NUMBER_START_ROW+1))
-        return 'No. ' + str(i-NUMBER_START_ROW) +'を削除しました\n'+'No.'+ str(i-NUMBER_START_ROW)+'\n'+'金額：' + cancel_money
+            ws.update_cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN,i-(NUMBER_START_ROW+2))
+        return 'No. ' + str(i-(NUMBER_START_ROW+1)) +'を削除しました\n'+'No.'+ str(i-(NUMBER_START_ROW+1))+'\n'+'金額：' + cancel_money
     except Exception as e:
-        print(e)
         raise
 
 #「清算」の関数#
