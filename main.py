@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import PERSON1_NAME, PERSON2_NAME, money_gs_sheet, cancel_gs_sheet, monthly_gs_sheet
+from gs_sheet import PERSON1_NAME, PERSON2_NAME, money_gs_sheet, cancel_gs_sheet, monthly_gs_sheet, smonthly_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -47,6 +47,7 @@ def handle_message(event):
             event.reply_token,
             TextSendMessage(text=help))
 
+    #収支#
     if PERSON1_NAME in event.message.text or PERSON2_NAME in event.message.text:
         if '合計支出' in event.message.text:
             t = '合計支出'
@@ -74,8 +75,7 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=str(error)))
 
-    # #残金変更
-
+    #キャンセル#
     if event.message.text == 'キャンセル':
         try:
             cancel = cancel_gs_sheet()
@@ -87,9 +87,10 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=str(error)))
 
+    #精算#
     if event.message.text == '精算':
         try:
-            seisan=monthly_gs_sheet()
+            seisan = smonthly_gs_sheet()
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=seisan))

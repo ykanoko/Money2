@@ -25,7 +25,7 @@ gc = gspread.authorize(credentials)
 
 SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
-ws = wb.worksheet('全体')
+ws = wb.worksheet('精算用')
 
 date = strftime("%Y/%m/%d", time.localtime())
 month_date = strftime("%Y/%m", time.localtime())
@@ -43,7 +43,7 @@ CURRENT_NUMBER_COLUMN=8
 CURRENT_NUMBER_ROW=2
 NUMBER_START_ROW=2
 
-#関数（収支）を1個にまとめる
+#収支#
 def money_gs_sheet(t,m,n,p):
     try:
         if int(ws.cell(CURRENT_NUMBER_ROW,CURRENT_NUMBER_COLUMN).value) > 5:
@@ -94,8 +94,114 @@ def cancel_gs_sheet():
         raise
 
 #「清算」の関数#
-      #機能追加：2つめのシートに月の支出を入力
 def monthly_gs_sheet():
+    MONTH_NUMBER_COLUMN=9
+    MONTH_DATE_COLUMN=10
+    MONTH_MONEY2_COLUMN=11
+    MONTH_MONEY_COLUMN=12
+    MONTH_PAY_NAME_COLUMN=13
+    MONTH_PAY_MONEY_COLUMN=14
+
+    try:
+        j=NUMBER_START_ROW
+        month_money2=0
+        paid_money_person1=0
+        paid_money_person2=0
+        while not ws.cell(j, NUMBER_COLUMN).value == None:
+            if '2022/08' in ws.cell(j, DATE_COLUMN).value and ws.cell(j, TYPE_COLUMN).value == '合計支出':
+                month_money2 += float(ws.cell(j, MONEY_COLUMN).value)
+                if ws.cell(j, PAY_COLUMN).value == PERSON1_NAME:
+                    paid_money_person1 += float(ws.cell(j, MONEY_COLUMN).value)
+                if ws.cell(j, PAY_COLUMN).value == PERSON2_NAME:
+                    paid_money_person2 += float(ws.cell(j, MONEY_COLUMN).value)
+                j += 1
+            else:
+                j += 1
+
+        month_money=month_money2/2
+        month_money_person1 = paid_money_person1 - month_money
+        month_money_person2 = paid_money_person2 - month_money
+        if month_money_person1 < 0:
+            month_pay_name=PERSON1_NAME
+            month_pay_money = 0 - month_money_person1
+        else:
+            month_pay_name=PERSON2_NAME
+            month_pay_money = 0 - month_money_person2
+        
+        i=NUMBER_START_ROW
+        while not ws.cell(i, MONTH_NUMBER_COLUMN).value == None:
+            i += 1
+        else:
+            ws.update_cell(i,MONTH_NUMBER_COLUMN,i-(NUMBER_START_ROW-1))
+            ws.update_cell(i,MONTH_DATE_COLUMN,month_date)
+            ws.update_cell(i,MONTH_MONEY2_COLUMN,month_money2)
+            ws.update_cell(i,MONTH_MONEY_COLUMN,str(month_money))
+            ws.update_cell(i,MONTH_PAY_NAME_COLUMN,month_pay_name)
+            ws.update_cell(i,MONTH_PAY_MONEY_COLUMN,month_pay_money)
+
+        return str(month_date)  +'\n' +'・合計支出：' + str(month_money2) + '円\n' + '・支出：' + str(month_money) + '円\n' + '・払うべき人：' + str(month_pay_name) + '\n' + '・金額：' + str(month_pay_money) + '円'
+    except Exception as e:
+        raise
+
+#「清算2.1」の関数#
+def smonthly_gs_sheet():
+    SMONTH_NUMBER_COLUMN=16
+    SMONTH_LAST_NUMBER_COLUMN=17
+    SMONTH_MONEY2_COLUMN=18
+    SMONTH_MONEY_COLUMN=19
+    SMONTH_PAID_PERSON1_COLUMN=20
+    SMONTH_PAID_PERSON2_COLUMN=21
+    SMONTH_PAY_NAME_COLUMN=22
+    SMONTH_PAY_MONEY_COLUMN=23
+
+    try:
+        j = 68
+        smonth_money2=0
+        spaid_money_person1=0
+        spaid_money_person2=0
+        for i in range(j, j+10):
+            if ws.cell(i, TYPE_COLUMN).value == '合計支出':
+                smonth_money2 += float(ws.cell(i, MONEY_COLUMN).value)
+                if ws.cell(i, PAY_COLUMN).value == PERSON1_NAME:
+                    spaid_money_person1 += float(ws.cell(i, MONEY_COLUMN).value)
+                if ws.cell(j, PAY_COLUMN).value == PERSON2_NAME:
+                    spaid_money_person2 += float(ws.cell(i, MONEY_COLUMN).value)
+
+        smonth_money = smonth_money2 / 2
+        smonth_money_person1 = spaid_money_person1 - smonth_money
+        smonth_money_person2 = spaid_money_person2 - smonth_money
+        if smonth_money_person1 < 0:
+            smonth_pay_name = PERSON1_NAME
+            smonth_pay_money = 0 - smonth_money_person1
+        else:
+            smonth_pay_name = PERSON2_NAME
+            smonth_pay_money = 0 - smonth_money_person2
+        
+        k = NUMBER_START_ROW
+        while not ws.cell(k, SMONTH_NUMBER_COLUMN).value == None:
+            i += 1
+        else:
+            ws.update_cell(k, SMONTH_NUMBER_COLUMN, k-(NUMBER_START_ROW-1))
+            ws.update_cell(k, SMONTH_LAST_NUMBER_COLUMN, j+10)
+            ws.update_cell(k, SMONTH_MONEY2_COLUMN, smonth_money2)
+            ws.update_cell(k, SMONTH_MONEY_COLUMN, str(smonth_money))
+            ws.update_cell(k, SMONTH_PAID_PERSON1_COLUMN, spaid_money_person1)
+            ws.update_cell(k, SMONTH_PAID_PERSON2_COLUMN, spaid_money_person2)
+            ws.update_cell(k, SMONTH_PAY_NAME_COLUMN, smonth_pay_name)
+            ws.update_cell(k, SMONTH_PAY_MONEY_COLUMN, smonth_pay_money)
+
+        return ('LNo. ' + str(j+10) +'\n'+
+                '・合計支出：' + str(smonth_money2) + '円\n' +
+                '・支出：' + str(smonth_money) + '円\n' +
+                '・和也：' + str(spaid_money_person1) + '円\n' +
+                '・花乃香：' + str(spaid_money_person2) + '円\n' +
+                '・払うべき人：' + str(smonth_pay_name) + '\n' +
+                '・金額：' + str(smonth_pay_money) + '円')
+    except Exception as e:
+        raise
+
+
+def calculate_gs_sheet():
     MONTH_NUMBER_COLUMN=9
     MONTH_DATE_COLUMN=10
     MONTH_MONEY2_COLUMN=11
