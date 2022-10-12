@@ -154,13 +154,13 @@ def smonthly_gs_sheet():
     SMONTH_PAY_NAME_COLUMN=22
     SMONTH_PAY_MONEY_COLUMN=23
 
-    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     try:
         j = 68
         smonth_money2=0
         spaid_money_person1=0
         spaid_money_person2=0
         for i in range(j, j+3):
+            print('for')
             if ws.cell(i, TYPE_COLUMN).value == '合計支出':
                 smonth_money2 += float(ws.cell(i, MONEY_COLUMN).value)
                 if ws.cell(i, PAY_COLUMN).value == PERSON1_NAME:
@@ -181,6 +181,7 @@ def smonthly_gs_sheet():
         k = NUMBER_START_ROW
         while not ws.cell(k, SMONTH_NUMBER_COLUMN).value == None:
             i += 1
+            print('while')
         else:
             ws.update_cell(k, SMONTH_NUMBER_COLUMN, k-(NUMBER_START_ROW-1))
             ws.update_cell(k, SMONTH_LAST_NUMBER_COLUMN, j+3)
