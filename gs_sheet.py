@@ -156,10 +156,12 @@ def smonthly_gs_sheet():
 
     try:
         j = 68
+        N_REPEAT = 10
+        LAST_INDEX = j + N_REPEAT - 3
         smonth_money2=0
         spaid_money_person1=0
         spaid_money_person2=0
-        for i in range(j, j+3):
+        for i in range(j, j+N_REPEAT):
             print('for')
             if ws.cell(i, TYPE_COLUMN).value == '合計支出':
                 smonth_money2 += float(ws.cell(i, MONEY_COLUMN).value)
@@ -184,7 +186,7 @@ def smonthly_gs_sheet():
             print('while')
         else:
             ws.update_cell(k, SMONTH_NUMBER_COLUMN, k-(NUMBER_START_ROW-1))
-            ws.update_cell(k, SMONTH_LAST_NUMBER_COLUMN, j+3-2)
+            ws.update_cell(k, SMONTH_LAST_NUMBER_COLUMN, LAST_INDEX)
             ws.update_cell(k, SMONTH_MONEY2_COLUMN, smonth_money2)
             ws.update_cell(k, SMONTH_MONEY_COLUMN, str(smonth_money))
             ws.update_cell(k, SMONTH_PAID_PERSON1_COLUMN, spaid_money_person1)
@@ -192,7 +194,7 @@ def smonthly_gs_sheet():
             ws.update_cell(k, SMONTH_PAY_NAME_COLUMN, smonth_pay_name)
             ws.update_cell(k, SMONTH_PAY_MONEY_COLUMN, smonth_pay_money)
 
-        return ('LNo. ' + str(j+3-2) +'\n'+
+        return ('LNo. ' + str(LAST_INDEX) +'\n'+
                 '・合計支出：' + str(smonth_money2) + '円\n' +
                 '・支出：' + str(smonth_money) + '円\n' +
                 '・和也：' + str(spaid_money_person1) + '円\n' +
