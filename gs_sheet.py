@@ -180,7 +180,7 @@ def smonthly_gs_sheet():
         
         k = NUMBER_START_ROW
         while not ws.cell(k, SMONTH_NUMBER_COLUMN).value == None:
-            i += 1
+            k += 1
             print('while')
         else:
             ws.update_cell(k, SMONTH_NUMBER_COLUMN, k-(NUMBER_START_ROW-1))
