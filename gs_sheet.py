@@ -165,7 +165,7 @@ def smonthly_gs_sheet():
                 smonth_money2 += float(ws.cell(i, MONEY_COLUMN).value)
                 if ws.cell(i, PAY_COLUMN).value == PERSON1_NAME:
                     spaid_money_person1 += float(ws.cell(i, MONEY_COLUMN).value)
-                if ws.cell(j, PAY_COLUMN).value == PERSON2_NAME:
+                if ws.cell(i, PAY_COLUMN).value == PERSON2_NAME:
                     spaid_money_person2 += float(ws.cell(i, MONEY_COLUMN).value)
 
         smonth_money = smonth_money2 / 2
@@ -184,7 +184,7 @@ def smonthly_gs_sheet():
             print('while')
         else:
             ws.update_cell(k, SMONTH_NUMBER_COLUMN, k-(NUMBER_START_ROW-1))
-            ws.update_cell(k, SMONTH_LAST_NUMBER_COLUMN, j+3)
+            ws.update_cell(k, SMONTH_LAST_NUMBER_COLUMN, j+3-2)
             ws.update_cell(k, SMONTH_MONEY2_COLUMN, smonth_money2)
             ws.update_cell(k, SMONTH_MONEY_COLUMN, str(smonth_money))
             ws.update_cell(k, SMONTH_PAID_PERSON1_COLUMN, spaid_money_person1)
@@ -192,7 +192,7 @@ def smonthly_gs_sheet():
             ws.update_cell(k, SMONTH_PAY_NAME_COLUMN, smonth_pay_name)
             ws.update_cell(k, SMONTH_PAY_MONEY_COLUMN, smonth_pay_money)
 
-        return ('LNo. ' + str(j+3) +'\n'+
+        return ('LNo. ' + str(j+3-2) +'\n'+
                 '・合計支出：' + str(smonth_money2) + '円\n' +
                 '・支出：' + str(smonth_money) + '円\n' +
                 '・和也：' + str(spaid_money_person1) + '円\n' +
