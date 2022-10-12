@@ -88,9 +88,11 @@ def handle_message(event):
                 TextSendMessage(text=str(error)))
 
     #精算#
-    if event.message.text == '精算':
+    #if event.message.text == '精算':
+    if '精算' in event.message.text:
+        n = int(event.message.text[len('精算'):])
         try:
-            seisan = smonthly_gs_sheet()
+            seisan = smonthly_gs_sheet(n)
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=seisan))

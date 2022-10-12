@@ -189,10 +189,7 @@ def smonthly_gs_sheet(n):
         else:
             smonth_pay_name = PERSON2_NAME
             smonth_pay_money = 0 - smonth_money_person2
-
-
-     #上でやったからいらないとこ消す!!!
-     # \   
+  
         ws.update_cell(SMONTH_ROW, SMONTH_NUMBER_COLUMN, SMONTH_ROW-(NUMBER_START_ROW-1))
         ws.update_cell(SMONTH_ROW, SMONTH_LAST_NUMBER_COLUMN, LAST_INDEX)
         ws.update_cell(SMONTH_ROW, SMONTH_MONEY2_COLUMN, smonth_money2)
