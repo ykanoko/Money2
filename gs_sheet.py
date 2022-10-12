@@ -170,7 +170,7 @@ def smonthly_gs_sheet(n):
 
         smonth_money2 = int(ws.cell(SMONTH_ROW-1, SMONTH_MONEY2_COLUMN).value)
         spaid_money_person1 = int(ws.cell(SMONTH_ROW-1, SMONTH_PAID_PERSON1_COLUMN).value)
-        spaid_money_person2 = int(ws.cell(SMONTH_ROW-1, SMONTH_PAID_PERSON1_COLUMN).value)
+        spaid_money_person2 = int(ws.cell(SMONTH_ROW-1, SMONTH_PAID_PERSON2_COLUMN).value)
         for i in range(j, j+N_REPEAT):
             print('for')
             if ws.cell(i, TYPE_COLUMN).value == '合計支出':
