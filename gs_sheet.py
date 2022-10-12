@@ -144,7 +144,7 @@ def monthly_gs_sheet():
         raise
 
 #「清算2.1」の関数#
-def smonthly_gs_sheet():
+def smonthly_gs_sheet(n):
     SMONTH_NUMBER_COLUMN=16
     SMONTH_LAST_NUMBER_COLUMN=17
     SMONTH_MONEY2_COLUMN=18
@@ -155,12 +155,22 @@ def smonthly_gs_sheet():
     SMONTH_PAY_MONEY_COLUMN=23
 
     try:
-        j = 68
+        j = n+2
         N_REPEAT = 10
         LAST_INDEX = j + N_REPEAT - 3
-        smonth_money2=0
-        spaid_money_person1=0
-        spaid_money_person2=0
+
+        #smonth_money2=0
+        #spaid_money_person1=0
+        #spaid_money_person2=0
+        k = NUMBER_START_ROW
+        while not ws.cell(k, SMONTH_NUMBER_COLUMN).value == None:
+            k += 1
+            print('while')
+        SMONTH_ROW = k
+
+        smonth_money2 = int(ws.cell(SMONTH_ROW-1, SMONTH_MONEY2_COLUMN).value)
+        spaid_money_person1 = int(ws.cell(SMONTH_ROW-1, SMONTH_PAID_PERSON1_COLUMN).value)
+        spaid_money_person2 = int(ws.cell(SMONTH_ROW-1, SMONTH_PAID_PERSON1_COLUMN).value)
         for i in range(j, j+N_REPEAT):
             print('for')
             if ws.cell(i, TYPE_COLUMN).value == '合計支出':
@@ -179,20 +189,18 @@ def smonthly_gs_sheet():
         else:
             smonth_pay_name = PERSON2_NAME
             smonth_pay_money = 0 - smonth_money_person2
-        
-        k = NUMBER_START_ROW
-        while not ws.cell(k, SMONTH_NUMBER_COLUMN).value == None:
-            k += 1
-            print('while')
-        else:
-            ws.update_cell(k, SMONTH_NUMBER_COLUMN, k-(NUMBER_START_ROW-1))
-            ws.update_cell(k, SMONTH_LAST_NUMBER_COLUMN, LAST_INDEX)
-            ws.update_cell(k, SMONTH_MONEY2_COLUMN, smonth_money2)
-            ws.update_cell(k, SMONTH_MONEY_COLUMN, str(smonth_money))
-            ws.update_cell(k, SMONTH_PAID_PERSON1_COLUMN, spaid_money_person1)
-            ws.update_cell(k, SMONTH_PAID_PERSON2_COLUMN, spaid_money_person2)
-            ws.update_cell(k, SMONTH_PAY_NAME_COLUMN, smonth_pay_name)
-            ws.update_cell(k, SMONTH_PAY_MONEY_COLUMN, smonth_pay_money)
+
+
+     #上でやったからいらないとこ消す!!!
+     # \   
+        ws.update_cell(SMONTH_ROW, SMONTH_NUMBER_COLUMN, SMONTH_ROW-(NUMBER_START_ROW-1))
+        ws.update_cell(SMONTH_ROW, SMONTH_LAST_NUMBER_COLUMN, LAST_INDEX)
+        ws.update_cell(SMONTH_ROW, SMONTH_MONEY2_COLUMN, smonth_money2)
+        ws.update_cell(SMONTH_ROW, SMONTH_MONEY_COLUMN, str(smonth_money))
+        ws.update_cell(SMONTH_ROW, SMONTH_PAID_PERSON1_COLUMN, spaid_money_person1)
+        ws.update_cell(SMONTH_ROW, SMONTH_PAID_PERSON2_COLUMN, spaid_money_person2)
+        ws.update_cell(SMONTH_ROW, SMONTH_PAY_NAME_COLUMN, smonth_pay_name)
+        ws.update_cell(SMONTH_ROW, SMONTH_PAY_MONEY_COLUMN, smonth_pay_money)
 
         return ('LNo. ' + str(LAST_INDEX) +'\n'+
                 '・合計支出：' + str(smonth_money2) + '円\n' +
