@@ -156,7 +156,7 @@ def smonthly_gs_sheet(n):
 
     try:
         j = n+2
-        N_REPEAT = 10
+        N_REPEAT = 5
         LAST_INDEX = j + N_REPEAT - 3
 
         #smonth_money2=0
