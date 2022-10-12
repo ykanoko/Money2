@@ -154,6 +154,7 @@ def smonthly_gs_sheet():
     SMONTH_PAY_NAME_COLUMN=22
     SMONTH_PAY_MONEY_COLUMN=23
 
+    print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     try:
         j = 68
         smonth_money2=0
