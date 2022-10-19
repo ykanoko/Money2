@@ -44,18 +44,18 @@ CURRENT_NUMBER_ROW=2
 NUMBER_START_ROW=2
 
 #精算用
-SMONTH_NUMBER_COLUMN=16
-SMONTH_LAST_NUMBER_COLUMN=17
-SMONTH_MONEY2_COLUMN=18
-SMONTH_MONEY_COLUMN=19
-SMONTH_PAID_PERSON1_COLUMN=20
-SMONTH_PAID_PERSON2_COLUMN=21
-SMONTH_PAY_NAME_COLUMN=22
-SMONTH_PAY_MONEY_COLUMN=23
+M_NUMBER_COLUMN=16
+#SMONTH_LAST_NUMBER_COLUMN=17
+M_MONEY2_COLUMN=17
+M_MONEY_COLUMN=18
+M_PAID_PERSON1_COLUMN=19
+M_PAID_PERSON2_COLUMN=20
+M_PAY_NAME_COLUMN=21
+M_PAY_MONEY_COLUMN=22
 
 
 #収支、精算#
-##精算用のマジックナンバー ・LNo.いらない（いるいらないの選別、returnの中身も）、・名称変更（「SMONTH」を「M_」に）、・スプシの場所の移動、
+##精算：スプシの場所の移動、
 ##精算のデータがいつも5個分くらいになるように、記入と同時に消すとか、上につめるとか、前のデータがある状態にはしておく必要あり、あとキャンセルにも対応できる個数で
 ##精算、キャンセルにも対応できるように、おそらく行消すだけでok、前の行から値持ってきて計算してるだけだから
 ###1か月分の支出も返信できたらいいな
@@ -90,12 +90,12 @@ def money_gs_sheet(t,m,n,p):
 
             #精算
             j = NUMBER_START_ROW
-            while not ws.cell(j, SMONTH_NUMBER_COLUMN).value == None:
+            while not ws.cell(j, M_NUMBER_COLUMN).value == None:
                 j += 1
 
-            m_money2 = int(ws.cell(j-1, SMONTH_MONEY2_COLUMN).value) + m+n
-            m_paid_person1 = int(ws.cell(j-1, SMONTH_PAID_PERSON1_COLUMN).value) + m
-            m_paid_person2 = int(ws.cell(j-1, SMONTH_PAID_PERSON2_COLUMN).value) + n
+            m_money2 = int(ws.cell(j-1, M_MONEY2_COLUMN).value) + m+n
+            m_paid_person1 = int(ws.cell(j-1, M_PAID_PERSON1_COLUMN).value) + m
+            m_paid_person2 = int(ws.cell(j-1, M_PAID_PERSON2_COLUMN).value) + n
 
             m_money = m_money2 / 2
             m_money_person1 = m_paid_person1 - m_money
@@ -107,21 +107,21 @@ def money_gs_sheet(t,m,n,p):
                 m_pay_name = PERSON2_NAME
                 m_pay_money = 0 - m_money_person2
     
-            ws.update_cell(j, SMONTH_NUMBER_COLUMN, j-(NUMBER_START_ROW-1))
-            ws.update_cell(j, SMONTH_MONEY2_COLUMN, m_money2)
-            ws.update_cell(j, SMONTH_MONEY_COLUMN, str(m_money))
-            ws.update_cell(j, SMONTH_PAID_PERSON1_COLUMN, m_paid_person1)
-            ws.update_cell(j, SMONTH_PAID_PERSON2_COLUMN, m_paid_person2)
-            ws.update_cell(j, SMONTH_PAY_NAME_COLUMN, m_pay_name)
-            ws.update_cell(j, SMONTH_PAY_MONEY_COLUMN, str(m_pay_money))
+            ws.update_cell(j, M_NUMBER_COLUMN, j-(NUMBER_START_ROW-1))
+            ws.update_cell(j, M_MONEY2_COLUMN, m_money2)
+            ws.update_cell(j, M_MONEY_COLUMN, str(m_money))
+            ws.update_cell(j, M_PAID_PERSON1_COLUMN, m_paid_person1)
+            ws.update_cell(j, M_PAID_PERSON2_COLUMN, m_paid_person2)
+            ws.update_cell(j, M_PAY_NAME_COLUMN, m_pay_name)
+            ws.update_cell(j, M_PAY_MONEY_COLUMN, str(m_pay_money))
 
         ws.update_cell(i,PERSON1_COLUMN, str(money_person1))
         ws.update_cell(i,PERSON2_COLUMN, str(money_person2))
 
         return ('[残金]\n'
                 'No. ' + str(i-NUMBER_START_ROW) +'\n' + 
-                '・'str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + 
-                '・'str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円\n'
+                '・' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + 
+                '・' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円\n'
                 '[精算]\n'
                 'No. ' + str(j-(NUMBER_START_ROW-1)) +'\n'+
                 '・合計支出：' + str(m_money2) + '円\n' +
