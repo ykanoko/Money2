@@ -76,6 +76,16 @@ def money_gs_sheet(t,m,n,p):
             ws.update_cell(i, PAY_COLUMN, p)
             ws.update_cell(CURRENT_NUMBER_ROW, CURRENT_NUMBER_COLUMN, i-NUMBER_START_ROW)
 
+        j = NUMBER_START_ROW
+        while not ws.cell(j, M_NUMBER_COLUMN).value == None:
+            j += 1
+        m_money2 = int(ws.cell(j-1, M_MONEY2_COLUMN).value)
+        m_money = float(ws.cell(j-1, M_MONEY_COLUMN).value)
+        m_paid_person1 = int(ws.cell(j-1, M_PAID_PERSON1_COLUMN).value)
+        m_paid_person2 = int(ws.cell(j-1, M_PAID_PERSON2_COLUMN).value)
+        m_pay_name = str(ws.cell(j-1, M_PAY_NAME_COLUMN).value)
+        m_pay_money = float(ws.cell(j-1, M_PAY_MONEY_COLUMN).value)
+
         if t == '収入':
             money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value) + m
             money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value) + n
@@ -89,13 +99,9 @@ def money_gs_sheet(t,m,n,p):
             money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value) - (m+n)/2
 
             #精算
-            j = NUMBER_START_ROW
-            while not ws.cell(j, M_NUMBER_COLUMN).value == None:
-                j += 1
-
-            m_money2 = int(ws.cell(j-1, M_MONEY2_COLUMN).value) + m+n
-            m_paid_person1 = int(ws.cell(j-1, M_PAID_PERSON1_COLUMN).value) + m
-            m_paid_person2 = int(ws.cell(j-1, M_PAID_PERSON2_COLUMN).value) + n
+            m_money2 += m+n
+            m_paid_person1 += m
+            m_paid_person2 += n
 
             m_money = m_money2 / 2
             m_money_person1 = m_paid_person1 - m_money
