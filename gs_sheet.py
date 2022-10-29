@@ -25,34 +25,31 @@ gc = gspread.authorize(credentials)
 
 SPREADSHEET_KEY = '1AjXVHcDBE32vbCVxwTCcqzHj0olxE6UlapdigoBELGs'
 wb = gc.open_by_key(SPREADSHEET_KEY)
-ws = wb.worksheet('精算用')
+ws = wb.get_worksheet(0)
 
 date = strftime("%Y/%m/%d", time.localtime())
 month_date = strftime("%Y/%m", time.localtime())
 
 PERSON1_NAME='和也'
 PERSON2_NAME='花乃香'
-NUMBER_COLUMN=1
-DATE_COLUMN=2
-TYPE_COLUMN=3
-MONEY_COLUMN=4
-PAY_COLUMN=5
-PERSON1_COLUMN=6
-PERSON2_COLUMN=7
-CURRENT_NUMBER_COLUMN=8
+CURRENT_NUMBER_COLUMN=1
 CURRENT_NUMBER_ROW=2
+NUMBER_COLUMN=2
+DATE_COLUMN=3
+TYPE_COLUMN=4
+MONEY_COLUMN=5
+PAY_COLUMN=6
+PERSON1_COLUMN=7
+PERSON2_COLUMN=8
 NUMBER_START_ROW=2
-
 #精算用
-M_NUMBER_COLUMN=16
-#SMONTH_LAST_NUMBER_COLUMN=17
-M_MONEY2_COLUMN=17
-M_MONEY_COLUMN=18
-M_PAID_PERSON1_COLUMN=19
-M_PAID_PERSON2_COLUMN=20
-M_PAY_NAME_COLUMN=21
-M_PAY_MONEY_COLUMN=22
-
+#M_NUMBER_COLUMN=10
+M_MONEY2_COLUMN=9
+M_MONEY_COLUMN=10
+M_PAID_PERSON1_COLUMN=11
+M_PAID_PERSON2_COLUMN=12
+M_PAY_NAME_COLUMN=13
+M_PAY_MONEY_COLUMN=14
 
 #収支、精算#
 ##精算：スプシの場所の移動、
@@ -66,25 +63,23 @@ def money_gs_sheet(t,m,n,p):
             i = int(ws.cell(CURRENT_NUMBER_ROW, CURRENT_NUMBER_COLUMN).value)
         else:
             i = NUMBER_START_ROW
+
         while not ws.cell(i, NUMBER_COLUMN).value == None:
             i += 1
-        else:
-            ws.update_cell(i, NUMBER_COLUMN, i-NUMBER_START_ROW)
-            ws.update_cell(i, DATE_COLUMN, date)
-            ws.update_cell(i, TYPE_COLUMN, t)
-            ws.update_cell(i, MONEY_COLUMN, m+n)
-            ws.update_cell(i, PAY_COLUMN, p)
-            ws.update_cell(CURRENT_NUMBER_ROW, CURRENT_NUMBER_COLUMN, i-NUMBER_START_ROW)
+        
+        ws.update_cell(i, NUMBER_COLUMN, i-NUMBER_START_ROW)  
+        ws.update_cell(i, DATE_COLUMN, date)
+        ws.update_cell(i, TYPE_COLUMN, t)
+        ws.update_cell(i, MONEY_COLUMN, m+n)
+        ws.update_cell(i, PAY_COLUMN, p)
+        ws.update_cell(CURRENT_NUMBER_ROW, CURRENT_NUMBER_COLUMN, i-NUMBER_START_ROW)
 
-        j = NUMBER_START_ROW
-        while not ws.cell(j, M_NUMBER_COLUMN).value == None:
-            j += 1
-        m_money2 = int(ws.cell(j-1, M_MONEY2_COLUMN).value)
-        m_money = float(ws.cell(j-1, M_MONEY_COLUMN).value)
-        m_paid_person1 = int(ws.cell(j-1, M_PAID_PERSON1_COLUMN).value)
-        m_paid_person2 = int(ws.cell(j-1, M_PAID_PERSON2_COLUMN).value)
-        m_pay_name = str(ws.cell(j-1, M_PAY_NAME_COLUMN).value)
-        m_pay_money = float(ws.cell(j-1, M_PAY_MONEY_COLUMN).value)
+        m_money2 = int(ws.cell(i-1, M_MONEY2_COLUMN).value)
+        m_money = float(ws.cell(i-1, M_MONEY_COLUMN).value)
+        m_paid_person1 = int(ws.cell(i-1, M_PAID_PERSON1_COLUMN).value)
+        m_paid_person2 = int(ws.cell(i-1, M_PAID_PERSON2_COLUMN).value)
+        m_pay_name = str(ws.cell(i-1, M_PAY_NAME_COLUMN).value)
+        m_pay_money = float(ws.cell(i-1, M_PAY_MONEY_COLUMN).value)
 
         if t == '収入':
             money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value) + m
@@ -112,17 +107,19 @@ def money_gs_sheet(t,m,n,p):
             else:
                 m_pay_name = PERSON2_NAME
                 m_pay_money = 0 - m_money_person2
-    
-            ws.update_cell(j, M_NUMBER_COLUMN, j-(NUMBER_START_ROW-1))
-            ws.update_cell(j, M_MONEY2_COLUMN, m_money2)
-            ws.update_cell(j, M_MONEY_COLUMN, str(m_money))
-            ws.update_cell(j, M_PAID_PERSON1_COLUMN, m_paid_person1)
-            ws.update_cell(j, M_PAID_PERSON2_COLUMN, m_paid_person2)
-            ws.update_cell(j, M_PAY_NAME_COLUMN, m_pay_name)
-            ws.update_cell(j, M_PAY_MONEY_COLUMN, str(m_pay_money))
+            
+
 
         ws.update_cell(i,PERSON1_COLUMN, str(money_person1))
         ws.update_cell(i,PERSON2_COLUMN, str(money_person2))
+
+        #ws.update_cell(j, M_NUMBER_COLUMN, j-(NUMBER_START_ROW-1))
+        ws.update_cell(i, M_MONEY2_COLUMN, m_money2)
+        ws.update_cell(i, M_MONEY_COLUMN, str(m_money))
+        ws.update_cell(i, M_PAID_PERSON1_COLUMN, m_paid_person1)
+        ws.update_cell(i, M_PAID_PERSON2_COLUMN, m_paid_person2)
+        ws.update_cell(i, M_PAY_NAME_COLUMN, m_pay_name)
+        ws.update_cell(i, M_PAY_MONEY_COLUMN, str(m_pay_money))
 
         return ('[残金]\n'
                 'No. ' + str(i-NUMBER_START_ROW) +'\n' + 
