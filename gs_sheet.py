@@ -126,7 +126,7 @@ def money_gs_sheet(t,m,n,p):
                 '・' + str(PERSON1_NAME) + 'の残金：' + str(money_person1) + '円\n' + 
                 '・' + str(PERSON2_NAME) + 'の残金：' + str(money_person2) + '円\n'
                 '[精算]\n'
-                'No. ' + str(j-(NUMBER_START_ROW-1)) +'\n'+
+                #'No. ' + str(j-(NUMBER_START_ROW-1)) +'\n'+
                 '・合計支出：' + str(m_money2) + '円\n' +
                 '・支出：' + str(m_money) + '円\n' +
                 '・和也：' + str(m_paid_person1) + '円\n' +
