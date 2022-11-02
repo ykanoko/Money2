@@ -11,7 +11,7 @@ from linebot.models import (
 )
 import os
 
-from gs_sheet import PERSON1_NAME, PERSON2_NAME, money_gs_sheet, cancel_gs_sheet, monthly_gs_sheet, smonthly_gs_sheet
+from gs_sheet import PERSON1_NAME, PERSON2_NAME, money_gs_sheet, cancel_gs_sheet, smonthly_gs_sheet
 
 app = Flask(__name__)
 #環境変数取得
@@ -41,7 +41,7 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text=='ヘルプ':
+    if event.message.text=='ヘルプ' or event.message.text=='へるぷ':
         help = "＜入力方法一覧＞\n" + "・「合計支出（払った人）（金額）」\n"+"2人で使ったお金を記録します。\n" + "・「支出（名前）（金額）」\n"+"個人で使ったお金を記録します。\n" + "・「収入（名前）（金額）」\n"+"個人の収入を記録します。\n"+ "・「キャンセル」\n最後の項目を削除します。" 
         line_bot_api.reply_message(
             event.reply_token,
@@ -87,30 +87,19 @@ def handle_message(event):
                 event.reply_token,
                 TextSendMessage(text=str(error)))
 
-    #精算#
-    #if event.message.text == '精算':
-    if '精算' in event.message.text:
-        n = int(event.message.text[len('精算'):])
-        try:
-            seisan = smonthly_gs_sheet(n)
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=seisan))
-        except Exception as error:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=str(error)))
-
-            
-    #if event.message.text=='スプシテスト':
-        #message_text = test_gs_sheet()
-        #line_bot_api.reply_message(
-            #event.reply_token,
-            #TextSendMessage(text=message_text))
-    #else:
-        #line_bot_api.reply_message(
-            #event.reply_token,
-            #TextSendMessage(text=event.message.text))
+    # #精算#
+    # #if event.message.text == '精算':
+    # if '精算' in event.message.text:
+    #     n = int(event.message.text[len('精算'):])
+    #     try:
+    #         seisan = smonthly_gs_sheet(n)
+    #         line_bot_api.reply_message(
+    #             event.reply_token,
+    #             TextSendMessage(text=seisan))
+    #     except Exception as error:
+    #         line_bot_api.reply_message(
+    #             event.reply_token,
+    #             TextSendMessage(text=str(error)))
 
 
 if __name__ == "__main__":
