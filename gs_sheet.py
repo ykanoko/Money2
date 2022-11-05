@@ -45,21 +45,23 @@ NUMBER_START_ROW=2
 #支出（月）
 M_MONEY2_COLUMN=9
 #精算用
+S_PERSON1_COLUMN=10
+S_PERSON2_COLUMN=11
 #M_NUMBER_COLUMN=10
-S_MONEY2_COLUMN=10
-S_MONEY_COLUMN=11
-S_PAID_PERSON1_COLUMN=12
-S_PAID_PERSON2_COLUMN=13
-S_PAY_NAME_COLUMN=14
-S_PAY_MONEY_COLUMN=15
+S_MONEY2_COLUMN=12
+S_MONEY_COLUMN=13
+S_PAID_PERSON1_COLUMN=14
+S_PAID_PERSON2_COLUMN=15
+S_PAY_NAME_COLUMN=16
+S_PAY_MONEY_COLUMN=17
 
 #収支、精算#
 ##精算：スプシの場所の移動
 ##精算：合計支出の数字が大きくなりすぎるのを防ぎたい、合計支出＞○○円で合計支出、払ったお金から一定値引く？
-##精算のデータがいつも10個分になるように、記入と同時に消す、前のデータがある状態にはしておく必要あり（1個上が空欄でなければ）
+##精算のデータがいつも30個分になるように、記入と同時に消す、前のデータがある状態にはしておく必要あり（1個上が空欄でなければ）
 ##精算、キャンセルにも対応できるように、おそらく行消すだけでok
-###1か月分の支出
-
+###1か月分の支出：個人支出も併せて、それぞれの1カ月支出が出せたら良いね
+###1か月分の支出：別のスプシに月々の支出を上の行の日付と違う場合に記入
 def money_gs_sheet(t,m,n,p):
     try:
         if int(ws.cell(CURRENT_NUMBER_ROW, CURRENT_NUMBER_COLUMN).value) > 5:
@@ -83,6 +85,8 @@ def money_gs_sheet(t,m,n,p):
         else:
             m_money2 = 0
             m_money = 0
+        s_person1 = float(ws.cell(i-1, S_PERSON1_COLUMN).value)
+        s_person2 = float(ws.cell(i-1, S_PERSON2_COLUMN).value)
         s_money2 = int(ws.cell(i-1, S_MONEY2_COLUMN).value)
         s_money = s_money2 / 2
         s_paid_person1 = int(ws.cell(i-1, S_PAID_PERSON1_COLUMN).value)
@@ -101,6 +105,9 @@ def money_gs_sheet(t,m,n,p):
         elif t == '合計支出':
             money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value) - (m+n)/2
             money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value) - (m+n)/2
+
+            s_money_person1 += m/2 - n/2
+            s_money_person2 -= m/2 - n/2
 
             m_money2 += m+n
             m_money = m_money2 / 2
@@ -123,6 +130,8 @@ def money_gs_sheet(t,m,n,p):
         ws.update_cell(i, PERSON1_COLUMN, str(money_person1))
         ws.update_cell(i, PERSON2_COLUMN, str(money_person2))
         ws.update_cell(i, M_MONEY2_COLUMN, m_money2)
+        ws.update_cell(i, S_PERSON1_COLUMN, str(s_person1))
+        ws.update_cell(i, S_PERSON2_COLUMN, str(s_person2))
         #ws.update_cell(j, S_NUMBER_COLUMN, j-(NUMBER_START_ROW-1))
         ws.update_cell(i, S_MONEY2_COLUMN, s_money2)
         ws.update_cell(i, S_MONEY_COLUMN, str(s_money))
@@ -139,6 +148,8 @@ def money_gs_sheet(t,m,n,p):
                 '・合計：' + str(m_money2) + '円\n' +
                 '・1人当たり：' + str(m_money) + '円\n' +
                 '[精算]\n'
+                '・和也：' + str(s_person1) + '円\n' +
+                '・花乃香：' + str(s_person2) + '円\n' +
                 #'No. ' + str(j-(NUMBER_START_ROW-1)) +'\n'+
                 '・合計支出：' + str(s_money2) + '円\n' +
                 '・和也：' + str(s_paid_person1) + '円\n' +
