@@ -106,8 +106,8 @@ def money_gs_sheet(t,m,n,p):
             money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value) - (m+n)/2
             money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value) - (m+n)/2
 
-            s_money_person1 += m/2 - n/2
-            s_money_person2 -= m/2 - n/2
+            s_person1 += m/2 - n/2
+            s_person2 -= m/2 - n/2
 
             m_money2 += m+n
             m_money = m_money2 / 2
