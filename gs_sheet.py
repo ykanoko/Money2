@@ -47,13 +47,15 @@ M_MONEY2_COLUMN=9
 #精算用
 S_PERSON1_COLUMN=10
 S_PERSON2_COLUMN=11
+S_NAME_COLUMN=12
+S_MONEY_PAY_COLUMN=13
 #M_NUMBER_COLUMN=10
-S_MONEY2_COLUMN=12
-S_MONEY_COLUMN=13
-S_PAID_PERSON1_COLUMN=14
-S_PAID_PERSON2_COLUMN=15
-S_PAY_NAME_COLUMN=16
-S_PAY_MONEY_COLUMN=17
+S_MONEY2_COLUMN=14
+S_MONEY_COLUMN=15
+S_PAID_PERSON1_COLUMN=16
+S_PAID_PERSON2_COLUMN=17
+S_PAY_NAME_COLUMN=18
+S_PAY_MONEY_COLUMN=19
 
 ###NO.0は全項目0で初期状態？
 
@@ -89,6 +91,8 @@ def money_gs_sheet(t,m,n,p):
             m_money = 0
         s_person1 = float(ws.cell(i-1, S_PERSON1_COLUMN).value)
         s_person2 = float(ws.cell(i-1, S_PERSON2_COLUMN).value)
+        s_name = str(ws.cell(i-1, S_NAME_COLUMN).value)
+        s_money_pay = float(ws.cell(i-1, S_MONEY_PAY_COLUMN).value)
         s_money2 = int(ws.cell(i-1, S_MONEY2_COLUMN).value)
         s_money = s_money2 / 2
         s_paid_person1 = int(ws.cell(i-1, S_PAID_PERSON1_COLUMN).value)
@@ -108,13 +112,21 @@ def money_gs_sheet(t,m,n,p):
             money_person1 = float(ws.cell(i-1,PERSON1_COLUMN).value) - (m+n)/2
             money_person2 = float(ws.cell(i-1,PERSON2_COLUMN).value) - (m+n)/2
 
-            s_person1 += m/2 - n/2
-            s_person2 -= m/2 - n/2
-
+            #月支出
             m_money2 += m+n
             m_money = m_money2 / 2
 
             #精算
+            s_person1 += m/2 - n/2
+            s_person2 -= m/2 - n/2
+            if s_person1 <0:
+                s_name = PERSON1_NAME
+                s_money_pay = 0 - s_person1
+            else:
+                s_name = PERSON2_NAME
+                s_money_pay = 0 - s_person2
+
+            #精算old
             s_money2 += m+n
             s_paid_person1 += m
             s_paid_person2 += n
@@ -134,6 +146,8 @@ def money_gs_sheet(t,m,n,p):
         ws.update_cell(i, M_MONEY2_COLUMN, m_money2)
         ws.update_cell(i, S_PERSON1_COLUMN, str(s_person1))
         ws.update_cell(i, S_PERSON2_COLUMN, str(s_person2))
+        ws.update_cell(i, S_NAME_COLUMN, str(s_name))
+        ws.update_cell(i, S_MONEY_PAY_COLUMN, str(s_money_pay))        
         #ws.update_cell(j, S_NUMBER_COLUMN, j-(NUMBER_START_ROW-1))
         ws.update_cell(i, S_MONEY2_COLUMN, s_money2)
         ws.update_cell(i, S_MONEY_COLUMN, str(s_money))
@@ -153,9 +167,9 @@ def money_gs_sheet(t,m,n,p):
                 '・和也：' + str(s_person1) + '円\n' +
                 '・花乃香：' + str(s_person2) + '円\n' +
                 #'No. ' + str(j-(NUMBER_START_ROW-1)) +'\n'+
-                '・合計支出：' + str(s_money2) + '円\n' +
-                '・和也：' + str(s_paid_person1) + '円\n' +
-                '・花乃香：' + str(s_paid_person2) + '円\n' +
+                # '・合計支出：' + str(s_money2) + '円\n' +
+                # '・和也：' + str(s_paid_person1) + '円\n' +
+                # '・花乃香：' + str(s_paid_person2) + '円\n' +
                 '・払うべき人：' + str(s_pay_name) + '\n' +
                 '・金額：' + str(s_pay_money) + '円')
     except Exception as e:
