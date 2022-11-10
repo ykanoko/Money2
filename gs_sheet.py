@@ -51,11 +51,11 @@ S_NAME_COLUMN=12
 S_MONEY_PAY_COLUMN=13
 #M_NUMBER_COLUMN=10
 S_MONEY2_COLUMN=14
-S_MONEY_COLUMN=15
-S_PAID_PERSON1_COLUMN=16
-S_PAID_PERSON2_COLUMN=17
-S_PAY_NAME_COLUMN=18
-S_PAY_MONEY_COLUMN=19
+#S_MONEY_COLUMN=15
+S_PAID_PERSON1_COLUMN=15
+S_PAID_PERSON2_COLUMN=16
+S_PAY_NAME_COLUMN=17
+S_PAY_MONEY_COLUMN=18
 
 ###NO.0は全項目0で初期状態？
 
@@ -89,10 +89,12 @@ def money_gs_sheet(t,m,n,p):
         else:
             m_money2 = 0
             m_money = 0
+
         s_person1 = float(ws.cell(i-1, S_PERSON1_COLUMN).value)
         s_person2 = float(ws.cell(i-1, S_PERSON2_COLUMN).value)
         s_name = str(ws.cell(i-1, S_NAME_COLUMN).value)
         s_money_pay = float(ws.cell(i-1, S_MONEY_PAY_COLUMN).value)
+        #精算old
         s_money2 = int(ws.cell(i-1, S_MONEY2_COLUMN).value)
         s_money = s_money2 / 2
         s_paid_person1 = int(ws.cell(i-1, S_PAID_PERSON1_COLUMN).value)
@@ -130,7 +132,6 @@ def money_gs_sheet(t,m,n,p):
             s_money2 += m+n
             s_paid_person1 += m
             s_paid_person2 += n
-
             s_money = s_money2 / 2
             s_money_person1 = s_paid_person1 - s_money
             s_money_person2 = s_paid_person2 - s_money
@@ -150,7 +151,7 @@ def money_gs_sheet(t,m,n,p):
         ws.update_cell(i, S_MONEY_PAY_COLUMN, str(s_money_pay))        
         #ws.update_cell(j, S_NUMBER_COLUMN, j-(NUMBER_START_ROW-1))
         ws.update_cell(i, S_MONEY2_COLUMN, s_money2)
-        ws.update_cell(i, S_MONEY_COLUMN, str(s_money))
+        #ws.update_cell(i, S_MONEY_COLUMN, str(s_money))
         ws.update_cell(i, S_PAID_PERSON1_COLUMN, s_paid_person1)
         ws.update_cell(i, S_PAID_PERSON2_COLUMN, s_paid_person2)
         ws.update_cell(i, S_PAY_NAME_COLUMN, s_pay_name)
