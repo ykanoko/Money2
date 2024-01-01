@@ -50,8 +50,8 @@ def handle_message(event):
         help = "＜入力方法一覧＞\n" + "・「合計支出（払った人）（金額）」\n" + "2人で使ったお金を記録します。\n" + "・「支出（名前）（金額）」\n" + "個人で使ったお金を記録します。\n" + "・「収入（名前）（金額）」\n" + "個人の収入を記録します。\n" + "・「キャンセル」\n最後の項目を削除します。"
         try:
             # event.source(object)を返信
-            user_id = event.source.user_id
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=user_id))
+            group_id = event.source.group_id
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text=group_id))
             # line_bot_api.reply_message(event.reply_token, TextSendMessage(text=json.dumps(event)))
         except:
             line_bot_api.reply_message(event.reply_token, TextSendMessage(text=help))
